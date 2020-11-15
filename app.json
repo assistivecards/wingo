@@ -1,11 +1,11 @@
 {
-  "name": "template",
+  "name": "wingo",
   "displayName": "Template",
   "analyticsKey": "UA-179085177-1",
   "apiEndpoint": "https://leeloo.dreamoriented.org/",
   "assetEndpoint": "https://api.assistivecards.com/",
   "assetVersion": 215,
-  "planPrefix": "templateapp_",
+  "planPrefix": "wingoapp_",
   "config": {
     "backgroundColor": "#63b2b5"
   },
@@ -14,8 +14,8 @@
     "googlePlay": 4974702142318544442
   },
   "expo": {
-    "name": "template",
-    "slug": "template",
+    "name": "wingo",
+    "slug": "wingo",
     "version": "1.0.0",
     "platforms": [
       "ios",
@@ -23,13 +23,13 @@
       "web"
     ],
     "ios": {
-      "bundleIdentifier": "org.dreamoriented.template",
+      "bundleIdentifier": "org.dreamoriented.wingo",
       "buildNumber": "1.0.0",
       "requireFullScreen": true,
       "supportsTablet": true
     },
     "android": {
-      "package": "org.dreamoriented.template",
+      "package": "org.dreamoriented.wingo",
       "permissions": [
         "WAKE_LOCK"
       ],

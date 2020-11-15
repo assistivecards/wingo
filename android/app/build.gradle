@@ -129,7 +129,7 @@ android {
     }
 
     defaultConfig {
-        applicationId 'org.dreamoriented.template'
+        applicationId 'org.dreamoriented.wingo'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 100
