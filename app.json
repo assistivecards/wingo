@@ -1,0 +1,43 @@
+{
+  "name": "template",
+  "displayName": "Template",
+  "analyticsKey": "UA-179085177-1",
+  "apiEndpoint": "https://leeloo.dreamoriented.org/",
+  "assetEndpoint": "https://api.assistivecards.com/",
+  "assetVersion": 215,
+  "planPrefix": "templateapp_",
+  "config": {
+    "backgroundColor": "#63b2b5"
+  },
+  "storeId": {
+    "appStore": 1516921796,
+    "googlePlay": 4974702142318544442
+  },
+  "expo": {
+    "name": "template",
+    "slug": "template",
+    "version": "1.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "ios": {
+      "bundleIdentifier": "org.dreamoriented.template",
+      "buildNumber": "1.0.0",
+      "requireFullScreen": true,
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "org.dreamoriented.template",
+      "permissions": [
+        "WAKE_LOCK"
+      ],
+      "versionCode": 100
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "entryPoint": "node_modules/expo/AppEntry.js"
+  }
+}
