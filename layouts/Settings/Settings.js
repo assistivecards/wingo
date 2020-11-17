@@ -108,7 +108,7 @@ export default class App extends React.Component {
 
     let lockBG = this.state.lockAnim.interpolate({
       inputRange: [0, 1],
-      outputRange: ["rgba(99,178,181,0)", "rgba(99,178,181,0.8)"]
+      outputRange: ["rgba(99,110,181,0)", "rgba(99,110,181,0.8)"]
     });
 
     return (
