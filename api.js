@@ -1,7 +1,7 @@
 import Storage from 'react-native-storage';
 import { AsyncStorage, Platform, Alert } from 'react-native';
 
-import * as Speech from 'expo-speech';
+import Speech from 'react-native-tts';
 import * as Localization from 'expo-localization';
 import * as Haptics from 'expo-haptics';
 import * as Permissions from 'expo-permissions';
@@ -17,18 +17,16 @@ import NetInfo from '@react-native-community/netinfo';
 import Event from './js/event';
 import makeid from './js/makeid';
 import styles from './js/styles';
+import uitext from './uitext';
 
 const APP = require("./app.json");
 // For test cases
 const _DEVELOPMENT = false;
 
 const _NETWORK_STATUS = true;
-const _FLUSH = true;
-const _DEVUSERIDENTIFIER = "109677539152659927717";
+const _FLUSH = false;
 const _DEVLOCALE = "en-US";
 const _ISPREMIUM = false;
-
-const enUI = require("./interface/en.json");
 
 const ANALYTICS_KEY = APP.analyticsKey;
 const API_ENDPOINT = APP.apiEndpoint;
@@ -53,13 +51,13 @@ class Api {
 		this.user = {};
 		this.cards = {};
 		this.storeId = APP.storeId;
-		this.uitext = {en: enUI};
 		this.searchArray = [];
 		this.development = _DEVELOPMENT;
 		this.styles = styles;
+		this.setSpeechEngine();
+
 		this.config = APP.config;
 		this.event = Event;
-		this.language = "en";
 		this.analytics = new Analytics(_DEVELOPMENT ? "DEVELOPMENT" : ANALYTICS_KEY, {slug: APP.name, name: APP.displayName, version: APP.expo.version});
 		this.isTablet = false;
 		this._checkIfTablet();
@@ -83,6 +81,57 @@ class Api {
 		}
 		this._initSubscriptions();
   }
+
+	isRTL(){
+		if(this.user.language){
+			return RTL.includes(this.user.language);
+		}else{
+			return false;
+		}
+	}
+
+	requestSpeechInstall(){
+		if(Platform.OS == "android"){
+			Speech.getInitStatus().then(() => {
+				Speech.requestInstallData();
+			}, (err) => {
+			  if (err.code === 'no_engine') {
+					Speech.requestInstallEngine();
+			  }
+			});
+		}
+	}
+
+	setSpeechEngine(){
+		if(Platform.OS == "android"){
+			Speech.engines().then(engines => {
+				engines.forEach(engine => {
+					if(engine.label){
+						if(engine.label.includes("Google") || engine.label.includes("google") || engine.label.includes("google")){
+							if(!engine.default){
+								Speech.setDefaultEngine(engine.name);
+							}
+						}
+					}
+				});
+			});
+		}
+	}
+
+	initSpeech(){
+		console.log("Speech Initialized");
+
+		Speech.setDefaultVoice(this.user.voice).then(res => {
+			console.log(res);
+		}, (err) => {
+		  console.log("Error: ", err);
+		});
+		Speech.setIgnoreSilentSwitch("ignore");
+		Speech.setDucking(true);
+		Speech.addEventListener('tts-start', () => {});
+		Speech.addEventListener('tts-finish', () => {});
+		Speech.addEventListener('tts-cancel', () => {});
+	}
 
 	hit(screen){
 		this.analytics.hit(new ScreenHit(screen))
@@ -115,11 +164,7 @@ class Api {
 			return _ISPREMIUM;
 		}
 
-		if(this.premium.includes("lifetime")){
-			return true;
-		}
-
-		if(this.premium.includes("lifetime") || this.premium.includes("yearly") || this.premium == this.premium.includes("monthly")){
+		if(this.premium.includes("lifetime") || this.premium.includes("yearly") || this.premium.includes("monthly")){
 			return true;
 		}else{
 			if(this.isGift){
@@ -195,7 +240,7 @@ class Api {
   }
 
 	async setup(profile){
-		let lang = profile.language ? profile.language : "en";
+		let lang = profile.language ? profile.language : Localization.locale.substr(0, 2);
 		let voice = await this.getBestAvailableVoiceDriver(lang);
 		let user = {
 			name: profile.name,
@@ -208,6 +253,7 @@ class Api {
 		await this.setData("user", JSON.stringify(user));
 		console.log("Setup completed.");
 		this.user = user;
+		this.initSpeech();
 	}
 
 	signout(){
@@ -241,34 +287,45 @@ class Api {
 		this.event.emit("refresh");
 	}
 
-	speak(text, speed){
+
+	speak(text, speed, voice){
+		if(voice){
+			Speech.setDefaultVoice(voice);
+		}
 		//text = this.phrase()
-		let rate = 1;
+		let rate = 0.5;
 		if(speed == "slow"){
-			rate = 0.5;
+			rate = 0.25;
 		}
 		if(this.user.voice != "unsupported"){
 			Speech.speak(text, {
-				voice: this.user.voice,
-				language: this.language,
+				language: this.user.language,
 				pitch: 1,
-				rate: rate
+				rate: rate,
+				androidParams: {
+					KEY_PARAM_STREAM: 'STREAM_MUSIC'
+				}
 			});
 		}
 	}
 
 	async getAvailableVoicesAsync(recall){
-		let voices = await Speech.getAvailableVoicesAsync();
+		let voices = await Speech.voices();
 		if(voices.length == 0){
 			if(recall){
 				return [];
 			}else{
 				await new Promise(function(resolve) {
-		        setTimeout(resolve, 1000);
+		        setTimeout(resolve, 8000);
 		    });
 				return await this.getAvailableVoicesAsync(true);
 			}
 		}else{
+			voices.map(voice => {
+				voice.name = voice.id;
+				voice.identifier = voice.id;
+				voice.quality == 500 ? voice.quality = "Enhanced" : voice.quality = "Optimal";
+			});
 			return voices;
 		}
 	}
@@ -310,7 +367,7 @@ class Api {
 	}
 
 	async getPacks(force){
-		var url = ASSET_ENDPOINT + "packs/" + this.language + "/metadata.json?v="+this.version;
+		var url = ASSET_ENDPOINT + "packs/" + this.user.language + "/metadata.json?v="+this.version;
 
 		if(this.packs && force == null){
 			console.log("pulling from ram");
@@ -362,15 +419,22 @@ class Api {
 							// Process transaction here and unlock content...
 
 							this.premium = purchase.productId;
+							if(purchase.productId.includes("lifetime")){
+								this.premium = "lifetime";
+							}else if(purchase.productId.includes("monthly")){
+								this.premium = "monthly";
+							}else if(purchase.productId.includes("yearly")){
+								this.premium = "yearly";
+							}
 
-							let consume = (purchase.productId == "lifetime");
+							let consume = (purchase.productId.includes("lifetime"));
 							console.log("Should I consume?", consume);
 							// Then when you're done
 							let resfinish = await InAppPurchases.finishTransactionAsync(purchase, consume);
 							alert(`Successfully purchased ${purchase.productId.replace(APP.planPrefix, "")}, you can now use the premium version of the app!`);
 							this.event.emit("premium");
 							this.event.emit("premiumPurchase", this.premium);
-							this.setData("premium", this.premium);
+							await this.setData("premium", this.premium);
 							this.event.emit("refresh");
 						}
 					});
@@ -386,36 +450,7 @@ class Api {
 				}
 			});
 
-      const history = await InAppPurchases.getPurchaseHistoryAsync(true);
-			if (history.responseCode === InAppPurchases.IAPResponseCode.OK) {
-			  // get to know if user is premium or npt.
-				console.log(history.results);
-				let lifetime = history.results.filter(res => res.productId == "lifetime")[0];
-				if(lifetime){
-					this.premium = "lifetime";
-				}else{
-					let orderedHistory = history.results.sort((a, b) => (a.purchaseTime > b.purchaseTime) ? 1 : -1);
-					if(orderedHistory[0]){
-						this.premium = orderedHistory[0].productId;
-					}else{
-						this.premium = "none";
-					}
-				}
-
-				this.event.emit("premium");
-				await this.setData("premium", this.premium);
-
-				this.getPlans(); // async fetch the plans for later use.
-
-			}else{
-				console.log("#### Appstore status is not ok.");
-				this.premium = await this.getData("premium");
-				if(!this.premium) {
-					this.premium = "none";
-					this.setData("premium", "none");
-				}
-				this.event.emit("premium");
-			}
+			this.restorePurchases();
 
     } catch(err){
       console.log("###### maybe no internet, or the app reloaded in dev mode", err);
@@ -426,6 +461,44 @@ class Api {
 			}
 			this.event.emit("premium");
     }
+	}
+
+	async restorePurchases(){
+		const history = await InAppPurchases.getPurchaseHistoryAsync(Platform.OS == "ios");
+		if (history.responseCode === InAppPurchases.IAPResponseCode.OK) {
+			// get to know if user is premium or npt.
+			let lifetime = history.results.filter(res => res.productId.includes("lifetime"))[0];
+			if(lifetime){
+				this.premium = "lifetime";
+			}else{
+				let orderedHistory = history.results.sort((a, b) => (a.purchaseTime > b.purchaseTime) ? 1 : -1);
+				if(orderedHistory[0]){
+					if(orderedHistory[0].productId.includes("monthly")){
+						this.premium = "monthly";
+					}else if(orderedHistory[0].productId.includes("yearly")){
+						this.premium = "yearly";
+					}else{
+						this.premium = "none";
+					}
+				}else{
+					this.premium = "none";
+				}
+			}
+
+			this.event.emit("premium");
+			await this.setData("premium", this.premium);
+
+			this.getPlans(); // async fetch the plans for later use.
+
+		}else{
+			console.log("#### Appstore status is not ok.");
+			this.premium = await this.getData("premium");
+			if(!this.premium) {
+				this.premium = "none";
+				this.setData("premium", "none");
+			}
+			this.event.emit("premium");
+		}
 	}
 
 	async getPlans(){
@@ -456,7 +529,7 @@ class Api {
 	}
 
 	async getCards(slug, force){
-		var url = ASSET_ENDPOINT + "packs/" + this.language + "/"+ slug +".json?v="+this.version;
+		var url = ASSET_ENDPOINT + "packs/" + this.user.language + "/"+ slug +".json?v="+this.version;
 
 		if(this.cards[slug] && force == null){
 			console.log("pulling from ram", "cardsFor", slug);
@@ -493,31 +566,24 @@ class Api {
 		}
 	}
 
-	async getIdentifier(){
-		if(_DEVELOPMENT && Platform.OS === 'android'){
-			return _DEVUSERIDENTIFIER;
-		}
-		return await this.getData("identifier");
-	}
-
 	t(UITextIdentifier, variableArray){
 		let lang = "en";
 		if(this.user){
-			lang = this.language
+			lang = this.user.language ? this.user.language : Localization.locale.substr(0, 2);
 		}else{
 			lang = Localization.locale.substr(0, 2);
 		}
 
-		if(!this.uitext[lang]){
+		if(!uitext[lang + "_json"]){
 			lang = "en";
 		}
 
 		if(typeof variableArray == "string" || typeof variableArray == "number"){
-			let text = this.uitext[lang][UITextIdentifier];
+			let text = uitext[lang + "_json"][UITextIdentifier];
 			if(text) return text.replace("$1", variableArray);
 			return "UnSupportedIdentifier";
 		}else if(typeof variableArray == "array"){
-			let text = this.uitext[lang][UITextIdentifier];
+			let text = uitext[lang + "_json"][UITextIdentifier];
 			if(text){
 				variableArray.forEach((variable, i) => {
 					let variableIdentifier = `${i+1}`;
@@ -529,7 +595,7 @@ class Api {
 			}
 
 		}else{
-			let text = this.uitext[lang][UITextIdentifier];
+			let text = uitext[lang + "_json"][UITextIdentifier];
 			if(text) return text;
 			return "UnSupportedIdentifier";
 		}
