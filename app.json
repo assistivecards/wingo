@@ -10,6 +10,7 @@
     "language": true,
     "tts": true,
     "accent": true,
+    "apps": true,
     "backgroundColor": "#636eb5",
     "pFontColor": "#333333"
   },

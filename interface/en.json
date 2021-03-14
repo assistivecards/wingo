@@ -50,6 +50,9 @@
 	"settings_subscriptions_oneTimePayment": "One-time payment",
 	"settings_subscriptions_recurringPayment": "Recurring payment",
 
+	"settings_selection_apps": "All Apps",
+	"settings_selection_apps_new": "NEW",
+	"settings_apps_description": "Discover other apps made by Assistive Cards",
 
 	"settings_selection_signout": "Sign Out",
 	"settings_selection_sendFeedback": "Send Feedback",
@@ -166,6 +169,7 @@
 	"button_add": "ADD",
 	"button_remove": "REMOVE",
 	"button_get_started": "Get Started",
+	"edit_profile": "Edit your profile",
 	"alert_yourDeviceDoesNotSupportTTS": "Your device doesn't support voice driver for this language. In order to use TTS capabilities, you need to install a voice driver. You can try 'Google TTS' app to install and manage drivers!",
 	"alert_ok": "OK",
 	"alert_cancel": "Cancel"
