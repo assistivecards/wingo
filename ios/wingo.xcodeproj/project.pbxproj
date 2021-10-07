@@ -11,7 +11,7 @@
 		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		495662B701CB3934079DDC69 /* libPods-template.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 54A41A80AD837409CA5648E7 /* libPods-template.a */; };
+		37F0E0CC65B851A554A076FD /* libPods-wingo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B168292354C24D14A8C171 /* libPods-wingo.a */; };
 		6717EA89259852500000C177 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6717EA88259852500000C177 /* GoogleService-Info.plist */; };
 		6731FAB8252095800017EF33 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6731FAB7252095800017EF33 /* StoreKit.framework */; };
 		99EC63CFB4B549BBAF093D10 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E3ABB89D1E68496EB7D95742 /* SplashScreen.storyboard */; };
@@ -19,6 +19,7 @@
 
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
+		0A06266563E2E55E4B9C2CD0 /* Pods-wingo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wingo.release.xcconfig"; path = "Target Support Files/Pods-wingo/Pods-wingo.release.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Huni.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Huni.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = huni/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = huni/AppDelegate.m; sourceTree = "<group>"; };
@@ -28,10 +29,11 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = huni/main.m; sourceTree = "<group>"; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B47C5AFCB8BDE514B7D1AC6 /* Pods-huni.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-huni.debug.xcconfig"; path = "Target Support Files/Pods-huni/Pods-huni.debug.xcconfig"; sourceTree = "<group>"; };
-		54A41A80AD837409CA5648E7 /* libPods-template.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-template.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		44B168292354C24D14A8C171 /* libPods-wingo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-wingo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6717EA88259852500000C177 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6731FAB7252095800017EF33 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		8AC623DBF3A3E2CB072F81F2 /* Pods-huni.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-huni.release.xcconfig"; path = "Target Support Files/Pods-huni/Pods-huni.release.xcconfig"; sourceTree = "<group>"; };
+		B134B90AC27EB7F33A4A6890 /* Pods-wingo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wingo.debug.xcconfig"; path = "Target Support Files/Pods-wingo/Pods-wingo.debug.xcconfig"; sourceTree = "<group>"; };
 		DF0054FE018199B01AF950C5 /* Pods-template.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-template.debug.xcconfig"; path = "Target Support Files/Pods-template/Pods-template.debug.xcconfig"; sourceTree = "<group>"; };
 		E3ABB89D1E68496EB7D95742 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = huni/SplashScreen.storyboard; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -45,7 +47,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6731FAB8252095800017EF33 /* StoreKit.framework in Frameworks */,
-				495662B701CB3934079DDC69 /* libPods-template.a in Frameworks */,
+				37F0E0CC65B851A554A076FD /* libPods-wingo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,7 +77,7 @@
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
-				54A41A80AD837409CA5648E7 /* libPods-template.a */,
+				44B168292354C24D14A8C171 /* libPods-wingo.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -87,6 +89,8 @@
 				8AC623DBF3A3E2CB072F81F2 /* Pods-huni.release.xcconfig */,
 				DF0054FE018199B01AF950C5 /* Pods-template.debug.xcconfig */,
 				F8E1F4597268DC9FC0412C3A /* Pods-template.release.xcconfig */,
+				B134B90AC27EB7F33A4A6890 /* Pods-wingo.debug.xcconfig */,
+				0A06266563E2E55E4B9C2CD0 /* Pods-wingo.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -213,7 +217,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-template/Pods-template-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-wingo/Pods-wingo-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -222,7 +226,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-template/Pods-template-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-wingo/Pods-wingo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F8BC737F2AD7A05944D9E2A1 /* [CP] Check Pods Manifest.lock */ = {
@@ -240,7 +244,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-template-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-wingo-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -295,7 +299,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DF0054FE018199B01AF950C5 /* Pods-template.debug.xcconfig */;
+			baseConfigurationReference = B134B90AC27EB7F33A4A6890 /* Pods-wingo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = huni/huni.entitlements;
@@ -324,7 +328,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F8E1F4597268DC9FC0412C3A /* Pods-template.release.xcconfig */;
+			baseConfigurationReference = 0A06266563E2E55E4B9C2CD0 /* Pods-wingo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = huni/huni.entitlements;
