@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, SafeAreaView, Dimensions, Image, Text, ScrollView, Animated, TouchableOpacity, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
+import { StyleSheet, StatusBar, View, SafeAreaView, Dimensions, Image, Text, ScrollView, Animated, TouchableOpacity, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
 
 import API from '../api';
 import { titleCase } from "title-case";
@@ -8,34 +8,50 @@ import * as ScreenOrientation from 'expo-screen-orientation';
 import Svg, { Line, Path, Circle } from 'react-native-svg';
 
 import TouchableScale from 'touchable-scale-btk';
+import { FlatList } from 'react-native-gesture-handler';
+
+const mockTasks = [
+  {
+    id: 1,
+    title: "Eat breakfast",
+  },
+  {
+    id: 2,
+    title: "Go outside",
+  },
+  {
+    id: 3,
+    title: "Do homework"
+  }
+]
 
 export default class Setting extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       orientation: "portrait"
     }
 
     ScreenOrientation.getOrientationAsync().then(orientation => {
-      if(orientation == 3 || orientation == 4){
-        this.setState({orientation: "landscape"});
+      if (orientation == 3 || orientation == 4) {
+        this.setState({ orientation: "landscape" });
       }
     })
   }
 
-  componentDidMount(){
+  componentDidMount() {
     API.hit("Home");
     API.event.on("refresh", this._refreshHandler)
     API.event.on("premium", this._refreshHandler)
     this.orientationSubscription = ScreenOrientation.addOrientationChangeListener(this._orientationChanged.bind(this));
   }
 
-  _orientationChanged(orientation){
+  _orientationChanged(orientation) {
     let newOrientation = "portrait";
-    if(orientation.orientationInfo.orientation == 3 || orientation.orientationInfo.orientation == 4){
+    if (orientation.orientationInfo.orientation == 3 || orientation.orientationInfo.orientation == 4) {
       newOrientation = "landscape";
     }
-    this.setState({orientation: newOrientation});
+    this.setState({ orientation: newOrientation });
   }
 
   _refreshHandler = () => {
@@ -43,68 +59,126 @@ export default class Setting extends React.Component {
     this.forceUpdate();
   };
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     ScreenOrientation.removeOrientationChangeListener(this.orientationSubscription);
     API.event.removeListener("refresh", this._refreshHandler);
     API.event.removeListener("premium", this._refreshHandler);
   }
 
-  openSettings(){
+  openSettings() {
     this.props.navigation.navigate("Settings");
   }
 
 
-  async getPacks(packs, force){
+  async getPacks(packs, force) {
     let allPacks = await API.getPacks(force);
-    this.setState({packs: allPacks});
+    this.setState({ packs: allPacks });
 
     API.ramCards(packs, force);
   }
 
   render() {
+    let profile = API.user;
 
-    return(
-      <View style={{flex: 1, backgroundColor: "#fff"}}>
-        <SafeAreaView></SafeAreaView>
-        <ScrollView contentInsetAdjustmentBehavior="automatic" keyboardShouldPersistTaps="handled" keyboardDismissMode={"on-drag"}>
-        <SafeAreaView style={{flex: 1}}>
-          <View style={{flexDirection: "column", justifyContent: "flex-start", alignItems: "flex-start"}}>
-            <View style={{flexDirection: "row", justifyContent: "space-between", alignItems: "center", flex: 1}}>
-              <TouchableOpacity style={styles.avatarHolder} onPress={() => this.openSettings()}>
-                <View style={styles.avatar}>
-                  <CachedImage uri={`${API.assetEndpoint}cards/avatar/${API.user.avatar}.png?v=${API.version}`}
-                    style={{width: 40, height: 40, position: "relative", top: 4}}
-                    resizeMode={"contain"}
+    return (
+      <View style={{ flex: 1, backgroundColor: "#fff" }}>
+        <StatusBar backgroundColor={API.config.backgroundColor} barStyle={"light-content"} />
+        <ScrollView contentInsetAdjustmentBehavior="automatic" keyboardShouldPersistTaps="handled" keyboardDismissMode={"on-drag"} style={{ flex: 1, backgroundColor: API.config.backgroundColor }}>
+          <SafeAreaView style={{ flex: 1 }}>
+            <View style={{ flexDirection: "column", justifyContent: "flex-start", alignItems: "flex-end" }}>
+              <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", flex: 1 }}>
+                <TouchableOpacity style={styles.avatarHolder} onPress={() => this.openSettings()}>
+                  <View style={styles.avatar}>
+                    <CachedImage uri={`${API.assetEndpoint}cards/avatar/${API.user.avatar}.png?v=${API.version}`}
+                      style={{ width: 40, height: 40, position: "relative", top: 4 }}
+                      resizeMode={"contain"}
                     />
-                </View>
-                <View style={styles.avatarIcon}>
-                  <Svg width={11} height={11} viewBox="0 0 8 4">
-                    <Line x1="1" x2="7" y1="0.8" y2="0.8" fill="none" stroke={API.config.backgroundColor} strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1"/>
-                    <Line x1="1" x2="7" y1="3.2" y2="3.2" fill="none" stroke={API.config.backgroundColor} strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1"/>
-                  </Svg>
-                </View>
-              </TouchableOpacity>
+                  </View>
+                  <View style={styles.avatarIcon}>
+                    <Svg width={11} height={11} viewBox="0 0 8 4">
+                      <Line x1="1" x2="7" y1="0.8" y2="0.8" fill="none" stroke={API.config.backgroundColor} strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" />
+                      <Line x1="1" x2="7" y1="3.2" y2="3.2" fill="none" stroke={API.config.backgroundColor} strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" />
+                    </Svg>
+                  </View>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
           </SafeAreaView>
 
           <SafeAreaView>
-            <Text style={[API.styles.h1, {color: "#333"}]}>H1: Heading</Text>
-            <Text style={API.styles.h2}>H2: Heading</Text>
-            <Text style={API.styles.h3}>H3: Heading</Text>
-            <Text style={API.styles.p}>This is a simple paragraph text style. Wingo is a white hawk with a small beak.</Text>
-
-
-            <View style={{alignItems: "center"}}>
-              <TouchableScale style={API.styles.button} onPress={() => this.props.navigation.push("ExampleStack", {variable: "test"})}>
-                <Text style={[API.styles.p, {color: "#fff"}]}>Push Stack</Text>
-              </TouchableScale>
-              <View style={{height: 10}}></View>
-              <TouchableScale style={API.styles.button} onPress={() => this.props.navigation.push("ExampleModalStack", {variable: "test"})}>
-                <Text style={[API.styles.p, {color: "#fff"}]}>Push Modal</Text>
-              </TouchableScale>
+            <Text style={[API.styles.h1, { color: "white", marginBottom: -5 }]}>Hello, {profile.name}</Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
+              <Text style={[API.styles.h2, { color: "white", fontWeight: 'normal', fontSize: 24, paddingBottom: 20, marginRight: 0 }]}>Find your tasks</Text>
+              {/* <Text style={[API.styles.h2, { color: "white", fontSize: 24, paddingBottom: 10, marginLeft: 8 }]}>today</Text> */}
             </View>
 
+            <View style={styles.content}>
+
+              <View style={{ paddingVertical: 10, paddingHorizontal: 30 }}>
+                <ScrollView
+                  horizontal
+                  showsVerticalScrollIndicator={false}
+                  showsHorizontalScrollIndicator={false}
+                  contentContainerStyle={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
+                  <Text style={{ fontSize: 20, fontWeight: "bold", opacity: 0.4, color: API.config.backgroundColor }}>Yesterday</Text>
+                  <View
+                    style={{ backgroundColor: API.config.backgroundColor, paddingHorizontal: 15, paddingVertical: 8, borderRadius: 50 }}
+                  >
+                    <Text style={{ fontSize: 20, fontWeight: "bold", color: 'white' }}>Today</Text>
+                  </View>
+                  <Text style={{ fontSize: 20, fontWeight: "bold", opacity: 0.4, color: API.config.backgroundColor }}>Tomorrow</Text>
+
+                </ScrollView>
+              </View>
+
+              <View style={{ borderBottomColor: 'grey', borderBottomWidth: 1, opacity: 0.2, paddingVertical: 3 }} />
+
+              <View style={{ paddingVertical: 10, paddingHorizontal: 30, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                <View style={{ flexDirection: 'row' }}>
+                  <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.7, margin: 4, marginLeft: 0 }} />
+                  <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.7, margin: 4 }} />
+                  <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.3, margin: 4 }} />
+                  <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.3, margin: 4 }} />
+                  <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.3, margin: 4 }} />
+                  <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.3, margin: 4 }} />
+                  <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.3, margin: 4 }} />
+                  <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.3, margin: 4 }} />
+                </View>
+                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>2/8</Text>
+              </View>
+
+              {/* <Text style={API.styles.p}>This is a simple paragraph text style. Wingo is a white hawk with a small beak.</Text>
+
+
+              <View style={{ alignItems: "center" }}>
+                <TouchableScale style={API.styles.button} onPress={() => this.props.navigation.push("ExampleStack", { variable: "test" })}>
+                  <Text style={[API.styles.p, { color: "#fff" }]}>Push Stack</Text>
+                </TouchableScale>
+                <View style={{ height: 10 }}></View>
+                <TouchableScale style={API.styles.button} onPress={() => this.props.navigation.push("ExampleModalStack", { variable: "test" })}>
+                  <Text style={[API.styles.p, { color: "#fff" }]}>Push Modal</Text>
+                </TouchableScale>
+              </View> */}
+
+              <View style={{ paddingVertical: 10, paddingHorizontal: 30 }}>
+                {mockTasks.map((task) => (
+                  <View key={task.id}>
+                    <Text>{task.title}</Text>
+                  </View>
+                ))}
+              </View>
+
+              <View style={{ height: 10 }}></View>
+
+              <View style={{ alignItems: "center" }}>
+                <TouchableScale style={API.styles.button} onPress={() => this.props.navigation.push("ExampleModalStack", { variable: "test" })}>
+                  <Text style={[API.styles.p, { color: "#fff", fontWeight: "bold" }]}>+ Add Task</Text>
+                </TouchableScale>
+              </View>
+
+            </View>
+
+            <View style={API.styles.iosBottomPadder}></View>
           </SafeAreaView>
         </ScrollView>
       </View>
@@ -168,7 +242,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#eee"
   },
-  categoryItemText:{
+  categoryItemText: {
     fontWeight: "bold",
     color: "rgba(0,0,0,0.75)"
   },
@@ -202,5 +276,13 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginTop: 10,
     height: 60,
-  }
+  },
+  content: {
+    backgroundColor: "#fff",
+    position: "relative",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    paddingTop: 10,
+    height: '100%',
+  },
 });
