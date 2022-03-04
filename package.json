@@ -51,7 +51,8 @@
     "react-navigation-stack": "^2.8.4",
     "react-navigation-tabs": "^2.9.0",
     "title-case": "^3.0.2",
-    "touchable-scale-btk": "^1.0.5"
+    "touchable-scale-btk": "^1.0.5",
+    "use-force-update": "^1.0.7"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

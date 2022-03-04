@@ -367,35 +367,6 @@ class Api {
 		}
 	}
 
-	async getPacks(force){
-		var url = ASSET_ENDPOINT + "packs/" + this.user.language + "/metadata.json?v="+this.version;
-
-		if(this.packs && force == null){
-			console.log("pulling from ram");
-			return this.packs;
-		}else{
-			let packsResponse;
-			try {
-				packsResponse = await fetch(url, {cache: "no-cache"})
-		    .then(res => res.json());
-				this.setData("packs", JSON.stringify(packsResponse));
-
-			} catch(error){
-				console.log("Offline, Falling back to cached packdata!", error);
-				let packsResponseString = await this.getData("packs");
-				if(packsResponseString){
-					packsResponse = JSON.parse(packsResponseString);
-				}
-			}
-			this.packs = packsResponse;
-			return packsResponse;
-		}
-	}
-
-	async ramCards(slugArray, force){
-		// We need to ram things hereé!
-	}
-
 	async _initSubscriptions(){
     try{
 			if(_DEVELOPMENT){
@@ -529,8 +500,37 @@ class Api {
 
 	}
 
+	async getActivities(force){
+		var url = ASSET_ENDPOINT + "activities/" + this.user.language + "/metadata.json?v="+this.version;
+
+		if(this.activities && force == null){
+			console.log("pulling from ram");
+			return this.activities;
+		}else{
+			let activitiesResponse;
+			try {
+				activitiesResponse = await fetch(url, {cache: "no-cache"})
+		    .then(res => res.json());
+				this.setData("activities", JSON.stringify(activitiesResponse));
+
+			} catch(error){
+				console.log("Offline, Falling back to cached packdata!", error);
+				let activitiesResponseString = await this.getData("activities");
+				if(activitiesResponseString){
+					activitiesResponse = JSON.parse(activitiesResponseString);
+				}
+			}
+			this.activities = activitiesResponse;
+			return activitiesResponse;
+		}
+	};
+
+	async ramCards(slugArray, force){
+		// We need to ram things hereé!
+	};
+
 	async getCards(slug, force){
-		var url = ASSET_ENDPOINT + "packs/" + this.user.language + "/"+ slug +".json?v="+this.version;
+		var url = ASSET_ENDPOINT + "activities/" + this.user.language + "/"+ slug +".json?v="+this.version;
 
 		if(this.cards[slug] && force == null){
 			console.log("pulling from ram", "cardsFor", slug);
@@ -552,7 +552,7 @@ class Api {
 			this.cards[slug] = cardsResponse;
 			return cardsResponse;
 		}
-	}
+	};
 
 	async getAllApps(){
 		var url = ASSET_ENDPOINT + "apps/metadata.json?v="+this.version;
