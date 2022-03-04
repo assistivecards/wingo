@@ -46,7 +46,6 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     API.hit("Home");
     API.speak(API.t("hello_you", API.user.name));
-    API.speak('find your tasks');
 
     API.event.on("refresh", _refreshHandler);
     API.event.on("premium", _refreshHandler);
@@ -85,10 +84,8 @@ const Home = ({ navigation }) => {
         </SafeAreaView>
 
         <SafeAreaView>
-          <Text style={[API.styles.h1, { color: "white", marginBottom: -5 }]}>Hello, {profile.name}</Text>
+          <Text style={[API.styles.h1, { color: "white", marginBottom: 40 }]}>Hello, {profile.name}</Text>
           <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
-            <Text style={[API.styles.h2, { color: "white", fontWeight: 'normal', fontSize: 24, paddingBottom: 20, marginRight: 0 }]}>Find your tasks</Text>
-            {/* <Text style={[API.styles.h2, { color: "white", fontSize: 24, paddingBottom: 10, marginLeft: 8 }]}>today</Text> */}
           </View>
 
           <View style={styles.content}>

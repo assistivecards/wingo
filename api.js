@@ -118,6 +118,20 @@ class Api {
 		}
 	}
 
+	search(term, searchArray){
+		if(term.length >= 2){
+			let results = [];
+			for (var i = 0; i < searchArray.length; i++) {
+				if(searchArray[i].search.includes(term.toLocaleLowerCase())){
+					results.push(searchArray[i]);
+				}
+			}
+			return results;
+		}else{
+			return [];
+		}
+	}
+
 	initSpeech(){
 		console.log("Speech Initialized");
 
