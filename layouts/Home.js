@@ -45,6 +45,9 @@ const Home = ({ navigation }) => {
 
   useEffect(() => {
     API.hit("Home");
+    API.speak(API.t("hello_you", API.user.name));
+    API.speak('find your tasks');
+
     API.event.on("refresh", _refreshHandler);
     API.event.on("premium", _refreshHandler);
 
@@ -55,10 +58,6 @@ const Home = ({ navigation }) => {
       API.event.removeListener("premium", _refreshHandler);
     };
   }, []);
-
-  useEffect(() => {
-    console.log('activities', JSON.stringify(activities, null, 2));
-  }, [activities]);
 
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -138,7 +137,7 @@ const Home = ({ navigation }) => {
             <View style={{ height: 10 }}></View>
 
             <View style={{ alignItems: "center" }}>
-              <TouchableScale style={API.styles.button} onPress={() => navigation.push("ExampleModalStack", { variable: "test" })}>
+              <TouchableScale style={API.styles.button} onPress={() => navigation.push("AddActivity")}>
                 <Text style={[API.styles.p, { color: "#fff", fontWeight: "bold" }]}>+ Add Task</Text>
               </TouchableScale>
             </View>

@@ -14,7 +14,8 @@
     "backgroundColor": "#636eb5",
     "pFontColor": "#333333",
     "panelColor": "#fff",
-    "transparentPanelColor": "rgba(255,255,255,0)"
+    "transparentPanelColor": "rgba(255,255,255,0)",
+    "globalPadding": 30
   },
   "storeId": {
     "appStore": 11111111,
