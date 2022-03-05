@@ -4,6 +4,7 @@ import { Image as CachedImage } from "react-native-expo-image-cache";
 import Svg, { Line } from 'react-native-svg';
 import TouchableScale from 'touchable-scale-btk';
 import useForceUpdate from 'use-force-update';
+import { Loading } from '../components';
 import API from '../api';
 
 const mockTasks = [
@@ -23,7 +24,7 @@ const mockTasks = [
 
 const Home = ({ navigation }) => {
   const forceUpdate = useForceUpdate();
-  const [activities, setActivities] = useState([]);
+  const [activities, setActivities] = useState(undefined);
 
   let profile = API.user;
 
@@ -61,6 +62,7 @@ const Home = ({ navigation }) => {
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
       <StatusBar backgroundColor={API.config.backgroundColor} barStyle={"light-content"} />
+
       <ScrollView contentInsetAdjustmentBehavior="automatic" keyboardShouldPersistTaps="handled" keyboardDismissMode={"on-drag"} style={{ flex: 1, backgroundColor: API.config.backgroundColor }}>
         <SafeAreaView style={{ flex: 1 }}>
           <View style={{ flexDirection: "column", justifyContent: "flex-start", alignItems: "flex-end" }}>
@@ -89,7 +91,6 @@ const Home = ({ navigation }) => {
           </View>
 
           <View style={styles.content}>
-
             <View style={{ paddingVertical: 10, paddingHorizontal: 30 }}>
               <ScrollView
                 horizontal
@@ -107,40 +108,44 @@ const Home = ({ navigation }) => {
               </ScrollView>
             </View>
 
-            <View style={{ borderBottomColor: 'grey', borderBottomWidth: 1, opacity: 0.2, paddingVertical: 3 }} />
+            <View>{!activities && <Loading />}</View>
 
-            <View style={{ paddingVertical: 10, paddingHorizontal: 30, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-              <View style={{ flexDirection: 'row' }}>
-                <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.7, margin: 4, marginLeft: 0 }} />
-                <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.7, margin: 4 }} />
-                <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.3, margin: 4 }} />
-                <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.3, margin: 4 }} />
-                <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.3, margin: 4 }} />
-                <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.3, margin: 4 }} />
-                <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.3, margin: 4 }} />
-                <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.3, margin: 4 }} />
-              </View>
-              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>2/8</Text>
-            </View>
+            {activities && (
+              <>
+                <View style={{ borderBottomColor: 'grey', borderBottomWidth: 1, opacity: 0.2, paddingVertical: 3 }} />
 
-            <View style={{ paddingVertical: 10, paddingHorizontal: 30 }}>
-              {mockTasks.map((task) => (
-                <View key={task.id}>
-                  <Text>{task.title}</Text>
+                <View style={{ paddingVertical: 10, paddingHorizontal: 30, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <View style={{ flexDirection: 'row' }}>
+                    <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.7, margin: 4, marginLeft: 0 }} />
+                    <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.7, margin: 4 }} />
+                    <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.3, margin: 4 }} />
+                    <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.3, margin: 4 }} />
+                    <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.3, margin: 4 }} />
+                    <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.3, margin: 4 }} />
+                    <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.3, margin: 4 }} />
+                    <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.3, margin: 4 }} />
+                  </View>
+                  <Text style={{ fontSize: 20, fontWeight: 'bold' }}>2/8</Text>
                 </View>
-              ))}
-            </View>
 
-            <View style={{ height: 10 }}></View>
+                <View style={{ paddingVertical: 10, paddingHorizontal: 30 }}>
+                  {mockTasks.map((task) => (
+                    <View key={task.id}>
+                      <Text>{task.title}</Text>
+                    </View>
+                  ))}
+                </View>
 
-            <View style={{ alignItems: "center" }}>
-              <TouchableScale style={API.styles.button} onPress={() => navigation.push("AddActivity")}>
-                <Text style={[API.styles.p, { color: "#fff", fontWeight: "bold" }]}>+ Add Task</Text>
-              </TouchableScale>
-            </View>
+                <View style={{ height: 10 }}></View>
 
+                <View style={{ alignItems: "center" }}>
+                  <TouchableScale style={API.styles.button} onPress={() => navigation.push("AddActivity")}>
+                    <Text style={[API.styles.p, { color: "#fff", fontWeight: "bold" }]}>+ Add Task</Text>
+                  </TouchableScale>
+                </View>
+              </>
+            )}
           </View>
-
           <View style={API.styles.iosBottomPadder}></View>
         </SafeAreaView>
       </ScrollView>

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import Svg, { Path } from 'react-native-svg';
+import TouchableScale from 'touchable-scale-btk';
 import { StatusBar, View, Text, Animated, SafeAreaView, KeyboardAvoidingView, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import TouchableScale from 'touchable-scale-btk';
-import Svg, { Path } from 'react-native-svg';
+import { Loading, Search, SearchResults } from '../components';
 import API from '../api';
-import Search from '../components/Search';
-import SearchResults from '../components/SearchResults';
 
 const AddActivity = ({ navigation }) => {
   const [activities, setActivities] = useState(undefined);
@@ -15,7 +14,7 @@ const AddActivity = ({ navigation }) => {
 
   useEffect(() => {
     API.hit("AddActivity");
-    setTimeout(() => setActivities(API.activities), 300);
+    setTimeout(() => setActivities(API.activities), 200);
   }, []);
 
   const toggleSearch = (status) => {
@@ -93,6 +92,10 @@ const AddActivity = ({ navigation }) => {
           </SafeAreaView>
 
           <View>
+            {!activities && <Loading />}
+          </View>
+
+          <View>
             {(search && term != "" && activities) &&
               <SearchResults term={term} activities={activities} />
             }
@@ -101,8 +104,7 @@ const AddActivity = ({ navigation }) => {
           {!term && activities &&
             <SafeAreaView>
               <Animated.View style={[styles.board, { opacity: boardOpacity, transform: [{ translateY: boardTranslate }] }]}>
-                {API.user && <SearchResults term={term} showAll activities={activities} />
-                }
+                {API.user && <SearchResults term={term} showAll activities={activities} />}
               </Animated.View>
             </SafeAreaView>
           }
