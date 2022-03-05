@@ -8,6 +8,7 @@ import Home from './layouts/Home'
 import ExampleStack from './layouts/ExampleStack'
 import ExampleModalStack from './layouts/ExampleModalStack'
 
+import AddActivity from './layouts/AddActivity';
 
 import Settings from './layouts/Settings/Settings'
 import Account from './layouts/Settings/Account'
@@ -77,8 +78,9 @@ function forVertical(props) {
 const RootNavigator = createAppContainer(AppNavigator);
 const ModelNavigator = createStackNavigator({
     Root:               { screen: RootNavigator        },
-    ExampleModalStack:  { screen: ExampleModalStack    }
+    ExampleModalStack:  { screen: ExampleModalStack    },
     // Your modal stack Navigators here
+    AddActivity:        { screen: AddActivity          },
 
 
 

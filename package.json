@@ -14,9 +14,9 @@
     "debug": "adb logcat"
   },
   "dependencies": {
-    "@react-native-community/masked-view": "^0.1.10",
-    "@react-native-community/netinfo": "5.9.6",
-    "@react-native-community/voice": "^1.1.4",
+    "@react-native-community/masked-view": "0.1.11",
+    "@react-native-community/netinfo": "7.1.8",
+    "@react-native-community/voice": "1.1.9",
     "events": "^3.2.0",
     "expo": "^39.0.0",
     "expo-analytics-safe": "^1.0.15",
@@ -29,7 +29,7 @@
     "expo-localization": "~9.0.0",
     "expo-notifications": "~0.7.2",
     "expo-permissions": "~9.3.0",
-    "expo-screen-orientation": "~2.0.0",
+    "expo-screen-orientation": "3.3.0",
     "expo-splash-screen": "~0.6.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
@@ -51,7 +51,8 @@
     "react-navigation-stack": "^2.8.4",
     "react-navigation-tabs": "^2.9.0",
     "title-case": "^3.0.2",
-    "touchable-scale-btk": "^1.0.5"
+    "touchable-scale-btk": "^1.0.5",
+    "use-force-update": "^1.0.7"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",

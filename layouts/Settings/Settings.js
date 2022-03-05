@@ -89,7 +89,6 @@ export default class App extends React.Component {
     ScreenOrientation.unlockAsync();
   }
 
-
   lockPress(){
     this.setState({
       lock: true,
