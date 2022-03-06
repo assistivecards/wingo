@@ -4,27 +4,14 @@ import { Image as CachedImage } from "react-native-expo-image-cache";
 import Svg, { Line } from 'react-native-svg';
 import TouchableScale from 'touchable-scale-btk';
 import useForceUpdate from 'use-force-update';
-import { Loading } from '../components';
+import { Loading, SearchItem } from '../components';
+import { StoreUtil } from '../utils';
 import API from '../api';
-
-const mockTasks = [
-  {
-    id: 1,
-    title: "Eat breakfast",
-  },
-  {
-    id: 2,
-    title: "Go outside",
-  },
-  {
-    id: 3,
-    title: "Do homework"
-  }
-]
 
 const Home = ({ navigation }) => {
   const forceUpdate = useForceUpdate();
   const [activities, setActivities] = useState(undefined);
+  const [tasks, setTasks] = useState(undefined);
 
   let profile = API.user;
 
@@ -44,6 +31,11 @@ const Home = ({ navigation }) => {
     API.ramCards(activities, force);
   };
 
+  const getTasks = async () => {
+    const tasks = await StoreUtil.getItem('@tasks');
+    setTasks(tasks);
+  };
+
   useEffect(() => {
     API.hit("Home");
     API.speak(API.t("hello_you", API.user.name));
@@ -52,6 +44,7 @@ const Home = ({ navigation }) => {
     API.event.on("premium", _refreshHandler);
 
     getActivities();
+    getTasks();
 
     return () => {
       API.event.removeListener("refresh", _refreshHandler);
@@ -128,11 +121,13 @@ const Home = ({ navigation }) => {
                   <Text style={{ fontSize: 20, fontWeight: 'bold' }}>2/8</Text>
                 </View>
 
-                <View style={{ paddingVertical: 10, paddingHorizontal: 30 }}>
-                  {mockTasks.map((task) => (
-                    <View key={task.id}>
-                      <Text>{task.title}</Text>
-                    </View>
+                <View>
+                  {tasks && activities && activities.filter(activity => tasks[activity.slug]).map((task, index) => (
+                    <SearchItem
+                      key={index}
+                      result={task}
+                      width={"100%"}
+                    />
                   ))}
                 </View>
 

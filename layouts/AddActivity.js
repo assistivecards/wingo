@@ -5,6 +5,7 @@ import { ActivityIndicator, StatusBar, View, Text, Animated, SafeAreaView, Keybo
 import { LinearGradient } from 'expo-linear-gradient';
 import { Loading, Search, SearchResults } from '../components';
 import API from '../api';
+import StoreUtil from '../utils/store';
 
 const AddActivity = ({ navigation }) => {
   const [activities, setActivities] = useState(undefined);
@@ -12,9 +13,17 @@ const AddActivity = ({ navigation }) => {
   const [searchToggleAnim] = useState(new Animated.Value(0));
   const [term, setTerm] = useState('');
   const [addLoading, setAddLoading] = useState(false);
+  const [selected, setSelected] = useState({});
+  console.log("🚀 ~ file: AddActivity.js ~ line 17 ~ AddActivity ~ selected", selected)
+
+  const getTasks = async () => {
+    const tasks = await StoreUtil.getItem('@tasks');
+    tasks && setSelected(tasks);
+  };
 
   useEffect(() => {
     API.hit("AddActivity");
+    getTasks();
     setTimeout(() => setActivities(API.activities), 200);
   }, []);
 
@@ -47,8 +56,13 @@ const AddActivity = ({ navigation }) => {
     }
   };
 
-  const handleAddBtnPress = () => {
+  const handleItemPress = (slug) => {
+    setSelected({ ...selected, [slug]: !selected[slug] ? true : undefined });
+  };
+
+  const handleAddBtnPress = async () => {
     setAddLoading(true);
+    await StoreUtil.setItem('@tasks', selected);
     setTimeout(() => {
       navigation.pop();
     }, 300);
@@ -83,7 +97,13 @@ const AddActivity = ({ navigation }) => {
 
           <View>
             {activities &&
-              <SearchResults term={term} showAll={!term} activities={activities} />
+              <SearchResults
+                term={term}
+                showAll={!term}
+                activities={activities}
+                onItemPress={handleItemPress}
+                selected={selected}
+              />
             }
           </View>
 

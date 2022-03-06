@@ -13,7 +13,7 @@ const SearchItem = ({ result, selected, onPress }) => {
   };
 
   const handlePress = () => {
-    onPress();
+    onPress && onPress();
     speak(result.title);
   };
 

@@ -1,19 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, SafeAreaView } from 'react-native';
 import API from '../api'
 import SearchItem from './SearchItem'
 
-const SearchResults = ({ term, activities, showAll }) => {
+const SearchResults = ({ term, activities, showAll, selected, onItemPress }) => {
   const results = showAll ? activities : API.search(term, activities);
-  const [selected, setSelected] = useState({});
-
-  const handlePress = (slug) => {
-    setSelected({ ...selected, [slug]: !selected[slug] ? true : undefined });
-  };
-
-  useEffect(() => {
-    console.log('selected', selected);
-  }, [selected]);
 
   return (
     <SafeAreaView>
@@ -25,7 +16,7 @@ const SearchResults = ({ term, activities, showAll }) => {
                 key={i}
                 result={result}
                 width={"100%"}
-                onPress={() => handlePress(result.slug)}
+                onPress={() => onItemPress(result.slug)}
                 selected={selected[result.slug]}
               />
             );
