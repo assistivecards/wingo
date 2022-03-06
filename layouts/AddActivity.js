@@ -77,7 +77,14 @@ const AddActivity = ({ navigation }) => {
           <SafeAreaView>
             <View style={{ flexDirection: API.isRTL() ? "row-reverse" : "row", justifyContent: "space-between", alignItems: "center", height: 60 }}>
               <View style={{ flex: 1 }}>
-                <Text style={[API.styles.h2, { padding: 0, margin: 0, color: "#000" }]}>Add activities</Text>
+                <Text
+                  style={[API.styles.h2, {
+                    padding: 0,
+                    margin: 0,
+                    color: "#000"
+                  }]}>
+                  Today
+                </Text>
               </View>
             </View>
           </SafeAreaView>
@@ -106,9 +113,9 @@ const AddActivity = ({ navigation }) => {
               />
             }
           </View>
-
         </ScrollView>
       </KeyboardAvoidingView>
+
       <LinearGradient colors={[API.config.transparentPanelColor, API.config.panelColor, API.config.panelColor]} style={{
         padding: 30,
         justifyContent: "center",
@@ -145,63 +152,4 @@ const AddActivity = ({ navigation }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  carrier: {
-    flex: 1,
-    backgroundColor: "#fff",
-    height: "100%"
-  },
-  header: {
-    backgroundColor: "#6989FF"
-  },
-  avatar: {
-    marginHorizontal: 30, padding: 2, backgroundColor: "#a5d5ff", borderRadius: 40, overflow: "hidden",
-    width: 45,
-    height: 45,
-    marginTop: 5,
-  },
-  avatarHolder: {
-    position: "relative"
-  },
-  avatarIcon: {
-    backgroundColor: "#fff",
-    width: 18,
-    height: 18,
-    position: "absolute",
-    bottom: -2,
-    right: 28,
-    borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  categoryItem: {
-    width: "50%"
-  },
-  categoryItemLandscape: {
-    width: "33.3%"
-  },
-  board: {
-    justifyContent: "flex-start",
-    flexDirection: "row",
-    flexWrap: "wrap",
-  },
-  categoryItemInner: {
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 1, borderRadius: 25,
-    margin: 5
-  },
-  categoryItemText: {
-    fontWeight: "bold",
-    marginBottom: 10,
-    color: "rgba(0,0,0,0.75)"
-  },
-  addPack: {
-    borderWidth: 2,
-    borderStyle: "dashed",
-    borderColor: "#ddd"
-  },
-});
-
 export default AddActivity;

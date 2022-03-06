@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, StatusBar, View, SafeAreaView, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Image as CachedImage } from "react-native-expo-image-cache";
-import Svg, { Line } from 'react-native-svg';
+import { LinearGradient } from 'expo-linear-gradient';
+import Svg, { Line, Path } from 'react-native-svg';
 import TouchableScale from 'touchable-scale-btk';
 import useForceUpdate from 'use-force-update';
 import { Loading, SearchItem } from '../components';
@@ -33,7 +34,10 @@ const Home = ({ navigation }) => {
 
   const getTasks = async () => {
     const tasks = await StoreUtil.getItem('@tasks');
-    setTasks(tasks);
+    console.log("🚀 ~ file: Home.js ~ line 37 ~ getTasks ~ tasks", tasks)
+    if (Object.keys(tasks).length !== 0) {
+      setTasks(tasks);
+    }
   };
 
   useEffect(() => {
@@ -129,14 +133,9 @@ const Home = ({ navigation }) => {
                       width={"100%"}
                     />
                   ))}
-                </View>
-
-                <View style={{ height: 10 }}></View>
-
-                <View style={{ alignItems: "center" }}>
-                  <TouchableScale style={API.styles.button} onPress={() => navigation.push("AddActivity")}>
-                    <Text style={[API.styles.p, { color: "#fff", fontWeight: "bold" }]}>+ Add Task</Text>
-                  </TouchableScale>
+                  {!tasks && (
+                    <Text style={{ textAlign: 'center' }}>Add some tasks for today</Text>
+                  )}
                 </View>
               </>
             )}
@@ -144,6 +143,42 @@ const Home = ({ navigation }) => {
           <View style={API.styles.iosBottomPadder}></View>
         </SafeAreaView>
       </ScrollView>
+
+      <LinearGradient colors={[API.config.transparentPanelColor, API.config.panelColor, API.config.panelColor]} style={{
+        padding: 30,
+        justifyContent: "center",
+        alignItems: "center",
+        position: "absolute",
+        bottom: 0,
+        zIndex: 99,
+        width: "100%",
+        height: 90,
+      }}>
+        <TouchableScale
+          style={{
+            position: "absolute",
+            bottom: 40,
+            backgroundColor: API.config.backgroundColor,
+            borderRadius: 25,
+            width: 50,
+            height: 50,
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+          onPress={() => navigation.navigate("AddActivity")}>
+          <Svg
+            width={24}
+            height={24}
+            stroke={API.config.panelColor}
+            strokeWidth={3}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <Path fill={API.config.panelColor} d="M12 5v14M5 12h14" />
+          </Svg>
+        </TouchableScale>
+      </LinearGradient>
+
     </View>
   );
 };
