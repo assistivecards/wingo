@@ -55,6 +55,7 @@ class Api {
 		this.development = _DEVELOPMENT;
 		this.styles = styles;
 		this.setSpeechEngine();
+		this.tasks = {};
 
 		this.config = APP.config;
 		this.event = Event;

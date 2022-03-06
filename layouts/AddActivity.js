@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Svg, { Path } from 'react-native-svg';
 import TouchableScale from 'touchable-scale-btk';
-import { StatusBar, View, Text, Animated, SafeAreaView, KeyboardAvoidingView, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+import { ActivityIndicator, StatusBar, View, Text, Animated, SafeAreaView, KeyboardAvoidingView, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Loading, Search, SearchResults } from '../components';
 import API from '../api';
@@ -11,6 +11,7 @@ const AddActivity = ({ navigation }) => {
   const [search, setSearch] = useState(false);
   const [searchToggleAnim] = useState(new Animated.Value(0));
   const [term, setTerm] = useState('');
+  const [addLoading, setAddLoading] = useState(false);
 
   useEffect(() => {
     API.hit("AddActivity");
@@ -46,25 +47,12 @@ const AddActivity = ({ navigation }) => {
     }
   };
 
-  let headerHeight = searchToggleAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: [60, 0]
-  });
-
-  let headerOpacity = searchToggleAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: [1, 0]
-  });
-
-  let boardOpacity = searchToggleAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: [1, 0]
-  });
-
-  let boardTranslate = searchToggleAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0, 400]
-  });
+  const handleAddBtnPress = () => {
+    setAddLoading(true);
+    setTimeout(() => {
+      navigation.pop();
+    }, 300);
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: API.config.panelColor }}>
@@ -73,13 +61,11 @@ const AddActivity = ({ navigation }) => {
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS == "ios" ? "padding" : "height"}>
         <ScrollView stickyHeaderIndices={[1]} contentInsetAdjustmentBehavior="automatic" keyboardShouldPersistTaps="handled" keyboardDismissMode={"on-drag"}>
           <SafeAreaView>
-            <Animated.View style={{ height: headerHeight, opacity: headerOpacity }}>
-              <View style={{ flexDirection: API.isRTL() ? "row-reverse" : "row", justifyContent: "space-between", alignItems: "center", height: 60 }}>
-                <View style={{ flex: 1 }}>
-                  <Text style={[API.styles.h2, { padding: 0, margin: 0, color: "#000" }]}>Activities</Text>
-                </View>
+            <View style={{ flexDirection: API.isRTL() ? "row-reverse" : "row", justifyContent: "space-between", alignItems: "center", height: 60 }}>
+              <View style={{ flex: 1 }}>
+                <Text style={[API.styles.h2, { padding: 0, margin: 0, color: "#000" }]}>Add activities</Text>
               </View>
-            </Animated.View>
+            </View>
           </SafeAreaView>
 
           <SafeAreaView>
@@ -96,18 +82,11 @@ const AddActivity = ({ navigation }) => {
           </View>
 
           <View>
-            {(search && term != "" && activities) &&
-              <SearchResults term={term} activities={activities} />
+            {activities &&
+              <SearchResults term={term} showAll={!term} activities={activities} />
             }
           </View>
 
-          {!term && activities &&
-            <SafeAreaView>
-              <Animated.View style={[styles.board, { opacity: boardOpacity, transform: [{ translateY: boardTranslate }] }]}>
-                {API.user && <SearchResults term={term} showAll activities={activities} />}
-              </Animated.View>
-            </SafeAreaView>
-          }
         </ScrollView>
       </KeyboardAvoidingView>
       <LinearGradient colors={[API.config.transparentPanelColor, API.config.panelColor, API.config.panelColor]} style={{
@@ -120,13 +99,28 @@ const AddActivity = ({ navigation }) => {
         width: "100%",
         height: 90,
       }}>
-        {!search && (
-          <TouchableScale style={{ position: "absolute", bottom: 40, backgroundColor: API.config.backgroundColor, borderRadius: 25, width: 50, height: 50, justifyContent: "center", alignItems: "center" }} onPress={() => navigation.pop()}>
+        <TouchableScale
+          style={{
+            position: "absolute",
+            bottom: 40,
+            backgroundColor: API.config.backgroundColor,
+            borderRadius: 25,
+            width: 50,
+            height: 50,
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+          onPress={handleAddBtnPress}
+        >
+          {addLoading &&
+            <ActivityIndicator color={API.config.panelColor} />
+          }
+          {!addLoading && (
             <Svg viewBox="0 0 24 24" width={32} height={32}>
-              <Path fill={API.config.panelColor} d="M18.3 5.71c-.39-.39-1.02-.39-1.41 0L12 10.59 7.11 5.7c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41L10.59 12 5.7 16.89c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0L12 13.41l4.89 4.89c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L13.41 12l4.89-4.89c.38-.38.38-1.02 0-1.4z" />
+              <Path fill={API.config.panelColor} d="M9 16.2l-3.5-3.5c-.39-.39-1.01-.39-1.4 0-.39.39-.39 1.01 0 1.4l4.19 4.19c.39.39 1.02.39 1.41 0L20.3 7.7c.39-.39.39-1.01 0-1.4-.39-.39-1.01-.39-1.4 0L9 16.2z"></Path>
             </Svg>
-          </TouchableScale>
-        )}
+          )}
+        </TouchableScale>
       </LinearGradient>
     </View>
   );
