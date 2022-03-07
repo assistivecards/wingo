@@ -4,25 +4,21 @@ import { Image as CachedImage } from "react-native-expo-image-cache";
 import { LinearGradient } from 'expo-linear-gradient';
 import Svg, { Line, Path } from 'react-native-svg';
 import TouchableScale from 'touchable-scale-btk';
-import useForceUpdate from 'use-force-update';
 import { Loading, SearchItem } from '../components';
+import { useAppContext, useForceUpdate } from '../hooks';
 import { StoreUtil } from '../utils';
 import API from '../api';
 
 const Home = ({ navigation }) => {
-  const forceUpdate = useForceUpdate();
   const [activities, setActivities] = useState(undefined);
-  const [tasks, setTasks] = useState(undefined);
+  const { tasks, setTasks } = useAppContext();
 
-  let profile = API.user;
+  const forceUpdate = useForceUpdate();
 
   const _refreshHandler = () => {
     console.log("refreshed");
     forceUpdate();
-  };
-
-  const openSettings = () => {
-    navigation.navigate("Settings");
+    // not affecting, todo
   };
 
   const getActivities = async (activities, force) => {
@@ -64,7 +60,7 @@ const Home = ({ navigation }) => {
         <SafeAreaView style={{ flex: 1 }}>
           <View style={{ flexDirection: "column", justifyContent: "flex-start", alignItems: "flex-end" }}>
             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", flex: 1 }}>
-              <TouchableOpacity style={styles.avatarHolder} onPress={openSettings}>
+              <TouchableOpacity style={styles.avatarHolder} onPress={() => navigation.navigate("Settings")}>
                 <View style={styles.avatar}>
                   <CachedImage uri={`${API.assetEndpoint}cards/avatar/${API.user.avatar}.png?v=${API.version}`}
                     style={{ width: 40, height: 40, position: "relative", top: 4 }}
@@ -83,7 +79,7 @@ const Home = ({ navigation }) => {
         </SafeAreaView>
 
         <SafeAreaView>
-          <Text style={[API.styles.h1, { color: "white", marginBottom: 40 }]}>Hello, {profile.name}</Text>
+          <Text style={[API.styles.h1, { color: "white", marginBottom: 40 }]}>Hello, {API.user.name}</Text>
           <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
           </View>
 

@@ -3,7 +3,7 @@ import { StyleSheet, View, SafeAreaView } from 'react-native';
 import API from '../api'
 import SearchItem from './SearchItem'
 
-const SearchResults = ({ term, activities, showAll, selected, onItemPress }) => {
+const SearchResults = ({ term, activities, showAll, tasks, onItemPress }) => {
   const results = showAll ? activities : API.search(term, activities);
 
   return (
@@ -17,7 +17,7 @@ const SearchResults = ({ term, activities, showAll, selected, onItemPress }) => 
                 result={result}
                 width={"100%"}
                 onPress={() => onItemPress(result.slug)}
-                selected={selected[result.slug]}
+                selected={tasks[result.slug]}
               />
             );
           })
