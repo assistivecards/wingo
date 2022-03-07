@@ -2,9 +2,15 @@ import React, { useState } from 'react';
 import { StyleSheet, View, SafeAreaView } from 'react-native';
 import API from '../api'
 import SearchItem from './SearchItem'
+import { DateUtil } from '../utils';
+import { useAppContext } from '../hooks';
 
-const SearchResults = ({ term, activities, showAll, tasks, onItemPress }) => {
+
+const SearchResults = ({ term, activities, showAll, onItemPress }) => {
   const results = showAll ? activities : API.search(term, activities);
+  const { tasks } = useAppContext();
+  
+  const today = DateUtil.today();
 
   return (
     <SafeAreaView>
@@ -17,7 +23,7 @@ const SearchResults = ({ term, activities, showAll, tasks, onItemPress }) => {
                 result={result}
                 width={"100%"}
                 onPress={() => onItemPress(result.slug)}
-                selected={tasks[result.slug]}
+                selected={tasks && tasks[today] && tasks[today][result.slug]}
               />
             );
           })

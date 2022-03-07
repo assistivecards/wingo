@@ -6,13 +6,15 @@ import Svg, { Line, Path } from 'react-native-svg';
 import TouchableScale from 'touchable-scale-btk';
 import { Loading, SearchItem } from '../components';
 import { useAppContext, useForceUpdate } from '../hooks';
-import { StoreUtil } from '../utils';
+import { StoreUtil, DateUtil } from '../utils';
 import API from '../api';
 
 const Home = ({ navigation }) => {
   const [activities, setActivities] = useState(undefined);
+  const [loading, setLoading] = useState(false);
   const { tasks, setTasks } = useAppContext();
 
+  const today = DateUtil.today();
   const forceUpdate = useForceUpdate();
 
   const _refreshHandler = () => {
@@ -28,11 +30,24 @@ const Home = ({ navigation }) => {
     API.ramCards(activities, force);
   };
 
-  const getTasks = async () => {
+  const isEmptyObject = (obj) => {
+    return JSON.stringify(obj) === '{}';
+  };
+
+  const syncTasks = async () => {
     const tasks = await StoreUtil.getItem('@tasks');
-    console.log("🚀 ~ file: Home.js ~ line 37 ~ getTasks ~ tasks", tasks)
-    if (Object.keys(tasks).length !== 0) {
-      setTasks(tasks);
+    if (tasks) {
+      const yesterday = DateUtil.yesterday();
+      const today = DateUtil.today();
+      const tomorrow = DateUtil.tomorrow();
+
+      const initialTasksObj = {
+        [yesterday]: tasks[yesterday] ? tasks[yesterday] : {},
+        [today]: tasks[today] ? tasks[today] : {},
+        [tomorrow]: tasks[tomorrow] ? tasks[tomorrow] : {},
+      };
+
+      setTasks(initialTasksObj);
     }
   };
 
@@ -44,7 +59,7 @@ const Home = ({ navigation }) => {
     API.event.on("premium", _refreshHandler);
 
     getActivities();
-    getTasks();
+    syncTasks();
 
     return () => {
       API.event.removeListener("refresh", _refreshHandler);
@@ -101,7 +116,7 @@ const Home = ({ navigation }) => {
               </ScrollView>
             </View>
 
-            <View>{!activities && <Loading />}</View>
+            <View>{!activities || loading && <Loading />}</View>
 
             {activities && (
               <>
@@ -122,14 +137,14 @@ const Home = ({ navigation }) => {
                 </View>
 
                 <View>
-                  {tasks && activities && activities.filter(activity => tasks[activity.slug]).map((task, index) => (
+                  {tasks && activities && activities.filter(activity => tasks[today] && tasks[today][activity.slug]).map((task, index) => (
                     <SearchItem
                       key={index}
                       result={task}
                       width={"100%"}
                     />
                   ))}
-                  {!tasks && (
+                  {tasks && (isEmptyObject(tasks) || isEmptyObject(tasks[today])) && (
                     <Text style={{ textAlign: 'center' }}>Add some tasks for today</Text>
                   )}
                 </View>

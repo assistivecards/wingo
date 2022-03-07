@@ -15,15 +15,32 @@ const AddActivity = ({ navigation }) => {
   const [term, setTerm] = useState('');
   const [addLoading, setAddLoading] = useState(false);
   const { tasks, setTasks } = useAppContext();
+  console.log("🚀 ~ file: AddActivity.js ~ line 18 ~ AddActivity ~ tasks", JSON.stringify(tasks, null, 2))
 
-  const getTasks = async () => {
-    const tasks = await StoreUtil.getItem('@tasks');
-    tasks && setTasks(tasks);
+  const today = DateUtil.today();
+
+  const handleItemPress = (slug) => {
+    setTasks(
+      {
+        ...tasks,
+        [today]: {
+          ...tasks[today],
+          [slug]: tasks[today] && !tasks[today][slug] ? true : undefined
+        }
+      }
+    );
+  };
+
+  const handleAddBtnPress = async () => {
+    setAddLoading(true);
+    await StoreUtil.setItem('@tasks', tasks);
+    setTimeout(() => {
+      navigation.pop();
+    }, 300);
   };
 
   useEffect(() => {
     API.hit("AddActivity");
-    getTasks();
     setTimeout(() => setActivities(API.activities), 200);
   }, []);
 
@@ -54,18 +71,6 @@ const AddActivity = ({ navigation }) => {
     if (searchTerm != term) {
       setTerm(searchTerm);
     }
-  };
-
-  const handleItemPress = (slug) => {
-    setTasks({ ...tasks, [slug]: !tasks[slug] ? true : undefined });
-  };
-
-  const handleAddBtnPress = async () => {
-    setAddLoading(true);
-    await StoreUtil.setItem('@tasks', tasks);
-    setTimeout(() => {
-      navigation.pop();
-    }, 300);
   };
 
   return (
@@ -109,7 +114,7 @@ const AddActivity = ({ navigation }) => {
                 showAll={!term}
                 activities={activities}
                 onItemPress={handleItemPress}
-                tasks={tasks}
+                tasks={tasks[today]}
               />
             }
           </View>

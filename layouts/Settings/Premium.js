@@ -27,7 +27,7 @@ export default class Setting extends React.Component {
     this.setState({plans})
     API.event.on("premium", this._listenPremiumChange.bind(this))
     API.event.on("premiumPurchase", this._listenPremiumPurchase.bind(this))
-    let cards = await API.getPacks();
+    let cards = await API.getActivities();
     this.setState({cards: cards.filter(res => res.premium == 1)});
     API.hit("Premium");
     API.avent("Premium", "Page", "load");

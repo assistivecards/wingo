@@ -19,7 +19,7 @@ export default class Setting extends React.Component {
   }
 
   componentDidMount(){
-    API.getPacks();
+    API.getActivities();
     ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
     this.animateTransition("name");
   }
