@@ -82,9 +82,11 @@ const Home = ({ navigation }) => {
       return {
         activity: activity,
         completed: tasks[dayDate][activity.slug]['completed'],
+        added: tasks[dayDate][activity.slug]['added'],
       };
     },
   );
+  console.log("🚀 ~ file: Home.js ~ line 89 ~ Home ~ tasksToReturn", JSON.stringify(tasksToReturn, null, 2))
   const handleCompletePress = (slug) => {
     setTasks(
       {

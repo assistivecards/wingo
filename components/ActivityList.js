@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, SafeAreaView } from 'react-native';
+import { DateUtil } from '../utils';
 import { useAppContext } from '../hooks';
 import ActivityItem from './ActivityItem'
 import API from '../api'
@@ -15,6 +16,7 @@ const ActivityList = ({ term, activities, showAll }) => {
         [dayDate]: {
           ...tasks[dayDate],
           [slug]: tasks[dayDate] && !tasks[dayDate][slug] ? {
+            added: DateUtil.now(),
             completed: null,
           } : undefined
         }
