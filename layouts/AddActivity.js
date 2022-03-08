@@ -3,7 +3,7 @@ import Svg, { Path } from 'react-native-svg';
 import TouchableScale from 'touchable-scale-btk';
 import { ActivityIndicator, StatusBar, View, Text, Animated, SafeAreaView, KeyboardAvoidingView, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Loading, Search, SearchResults } from '../components';
+import { ActivityList, Loading, Search } from '../components';
 import { StoreUtil } from '../utils';
 import { useAppContext } from '../hooks';
 import API from '../api';
@@ -14,21 +14,29 @@ const AddActivity = ({ navigation }) => {
   const [searchToggleAnim] = useState(new Animated.Value(0));
   const [term, setTerm] = useState('');
   const [addLoading, setAddLoading] = useState(false);
-  const { tasks, day } = useAppContext();
-
-  console.log("🚀 ~ file: AddActivity.js ~ line 18 ~ AddActivity ~ tasks", JSON.stringify(tasks, null, 2))
+  const { tasks, day, dayDate } = useAppContext();
 
   const handleAddBtnPress = async () => {
-    setAddLoading(true);
-    await StoreUtil.setItem('@tasks', tasks);
-    setTimeout(() => {
-      navigation.pop();
-    }, 300);
+    try {
+      setAddLoading(true);
+      await StoreUtil.setItem('@tasks', tasks);
+      setTimeout(() => {
+        navigation.pop();
+      }, 300);
+    } catch (error) {
+      console.log('error while persisting the tasks', error);
+    }
   };
 
   useEffect(() => {
     API.hit("AddActivity");
-    setTimeout(() => setActivities(API.activities), 200);
+    setTimeout(() => {
+      setActivities(
+        tasks && tasks[dayDate]
+          ? API.activities.filter(activity => !tasks[dayDate][activity.slug])
+          : API.activities
+      );
+    }, 200);
   }, []);
 
   const toggleSearch = (status) => {
@@ -97,7 +105,7 @@ const AddActivity = ({ navigation }) => {
 
           <View>
             {activities &&
-              <SearchResults
+              <ActivityList
                 term={term}
                 activities={activities}
                 showAll={!term}

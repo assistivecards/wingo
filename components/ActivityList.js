@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, View, SafeAreaView } from 'react-native';
 import { useAppContext } from '../hooks';
-import SearchItem from './SearchItem'
+import ActivityItem from './ActivityItem'
 import API from '../api'
 
-const SearchResults = ({ term, activities, showAll }) => {
+const ActivityList = ({ term, activities, showAll }) => {
   const results = showAll ? activities : API.search(term, activities);
   const { tasks, dayDate, setTasks } = useAppContext();
 
@@ -14,28 +14,31 @@ const SearchResults = ({ term, activities, showAll }) => {
         ...tasks,
         [dayDate]: {
           ...tasks[dayDate],
-          [slug]: tasks[dayDate] && !tasks[dayDate][slug] ? true : undefined
+          [slug]: tasks[dayDate] && !tasks[dayDate][slug] ? {
+            completed: null,
+          } : undefined
         }
       }
     );
   };
-  
   return (
     <SafeAreaView>
-      <View style={styles.searchCarrier}>
-        {
-          results.map((result, i) => {
-            return (
-              <SearchItem
-                key={i}
-                result={result}
-                width={"100%"}
-                onPress={() => handleItemPress(result.slug)}
-                selected={tasks && tasks[dayDate] && tasks[dayDate][result.slug]}
-              />
-            );
-          })
-        }
+      <View
+        style={[
+          styles.searchCarrier,
+          {
+            paddingHorizontal: API.config.globalPadding,
+          }
+        ]}
+      >
+        {results.map((result, i) => (
+          <ActivityItem
+            key={i}
+            data={result}
+            onPress={() => handleItemPress(result.slug)}
+            selected={tasks && tasks[dayDate] && tasks[dayDate][result.slug]}
+          />
+        ))}
         <View style={{ width: "100%", height: 75 }}></View>
       </View>
     </SafeAreaView>
@@ -52,4 +55,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SearchResults;
+export default ActivityList;

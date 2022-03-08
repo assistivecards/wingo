@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import Svg, { Line, Path } from 'react-native-svg';
+import TouchableScale from 'touchable-scale-btk';
 import { StyleSheet, StatusBar, View, SafeAreaView, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Image as CachedImage } from "react-native-expo-image-cache";
 import { LinearGradient } from 'expo-linear-gradient';
-import Svg, { Line, Path } from 'react-native-svg';
-import TouchableScale from 'touchable-scale-btk';
-import { Loading, SearchItem, DayMenu } from '../components';
+import { Loading, DayMenu, TaskItem, ProgressBar } from '../components';
 import { useAppContext, useForceUpdate } from '../hooks';
 import { StoreUtil, DateUtil } from '../utils';
 import API from '../api';
@@ -77,6 +77,32 @@ const Home = ({ navigation }) => {
     };
   }, []);
 
+  const tasksToReturn = tasks && activities && activities.filter(activity => tasks[dayDate] && tasks[dayDate][activity.slug]).map(
+    activity => {
+      return {
+        activity: activity,
+        completed: tasks[dayDate][activity.slug]['completed'],
+      };
+    },
+  );
+  const handleCompletePress = (slug) => {
+    setTasks(
+      {
+        ...tasks,
+        [dayDate]: {
+          ...tasks[dayDate],
+          [slug]: {
+            ...tasks[dayDate][slug],
+            completed: tasks[dayDate][slug]['completed'] ? null : DateUtil.now(),
+          }
+        }
+      }
+    );
+  };
+
+  const allCount = tasksToReturn && tasksToReturn.length;
+  const completedCount = tasksToReturn && tasksToReturn.filter(task => task.completed).length;
+
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
       <StatusBar backgroundColor={API.config.backgroundColor} barStyle={"light-content"} />
@@ -112,36 +138,23 @@ const Home = ({ navigation }) => {
 
             <DayMenu />
 
-            <View>{!activities || loading && <Loading />}</View>
+            <View>{(!activities || loading) && <Loading />}</View>
 
             {activities && (
               <>
                 <View style={{ borderBottomColor: 'grey', borderBottomWidth: 1, opacity: 0.2, paddingVertical: 3 }} />
 
-                <View style={{ paddingVertical: 10, paddingHorizontal: 30, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <View style={{ flexDirection: 'row' }}>
-                    <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.7, margin: 4, marginLeft: 0 }} />
-                    <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.7, margin: 4 }} />
-                    <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.3, margin: 4 }} />
-                    <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.3, margin: 4 }} />
-                    <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.3, margin: 4 }} />
-                    <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.3, margin: 4 }} />
-                    <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.3, margin: 4 }} />
-                    <View style={{ height: 10, width: 30, backgroundColor: API.config.backgroundColor, opacity: 0.3, margin: 4 }} />
-                  </View>
-                  <Text style={{ fontSize: 20, fontWeight: 'bold' }}>2/8</Text>
-                </View>
+                {allCount > 0 && <ProgressBar completedCount={completedCount} allCount={allCount} />}
 
-                <View>
-                  {tasks && activities && activities.filter(activity => tasks[dayDate] && tasks[dayDate][activity.slug]).map((task, index) => (
-                    <SearchItem
-                      key={index}
-                      result={task}
-                      width={"100%"}
-                    />
+                <View
+                  style={{
+                    paddingHorizontal: API.config.globalPadding,
+                  }}>
+                  {tasksToReturn && tasksToReturn.map((task, index) => (
+                    <TaskItem key={index} data={task} onCompletePress={() => handleCompletePress(task.activity && task.activity.slug)} />
                   ))}
                   {tasks && (isEmptyObject(tasks) || isEmptyObject(tasks[dayDate])) && (
-                    <Text style={{ textAlign: 'center' }}>Add some tasks for {day}</Text>
+                    <Text style={{ textAlign: 'center', marginTop: 20 }}>Add some tasks for {day}</Text>
                   )}
                 </View>
               </>

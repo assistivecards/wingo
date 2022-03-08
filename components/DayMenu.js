@@ -3,11 +3,12 @@ import { View, ScrollView } from 'react-native';
 import { DAY } from '../constants';
 import { useAppContext } from '../hooks';
 import DayItem from './DayItem';
+import API from '../api';
 
 const DayMenu = () => {
   const { day, setDay } = useAppContext();
   return (
-    <View style={{ paddingVertical: 10, paddingHorizontal: 30 }}>
+    <View style={{ paddingVertical: 10, paddingHorizontal: API.config.globalPadding }}>
       <ScrollView
         horizontal
         showsVerticalScrollIndicator={false}

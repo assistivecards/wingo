@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { StoreUtil, DateUtil } from '../utils';
+import { DateUtil, StoreUtil } from '../utils';
 import { DAY } from '../constants';
 
 export const AppContext = createContext({
@@ -32,6 +32,19 @@ export const AppProvider = ({ children }) => {
       }
     }
   }, [day]);
+
+  useEffect(() => {
+    if (tasks) {
+      console.log("tasks", JSON.stringify(tasks, null, 2));
+      try {
+        setTimeout(async () => {
+          await StoreUtil.setItem('@tasks', tasks);
+        }, 100);
+      } catch (error) {
+        console.log('error while persisting the tasks', error);
+      }
+    }
+  }, [tasks]);
 
   return (
     <AppContext.Provider

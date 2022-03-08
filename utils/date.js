@@ -1,4 +1,7 @@
 class DateUtil {
+  static now = () => {
+    return new Date();
+  }
   static yesterday = () => {
     const yesterdayDate = new Date(new Date().getTime() - 24 * 60 * 60 * 1000);
     return DateUtil.format(yesterdayDate);
