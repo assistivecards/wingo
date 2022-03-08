@@ -4,9 +4,9 @@ import TouchableScale from 'touchable-scale-btk';
 import { ActivityIndicator, StatusBar, View, Text, Animated, SafeAreaView, KeyboardAvoidingView, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Loading, Search, SearchResults } from '../components';
-import API from '../api';
-import { StoreUtil, DateUtil } from '../utils';
+import { StoreUtil } from '../utils';
 import { useAppContext } from '../hooks';
+import API from '../api';
 
 const AddActivity = ({ navigation }) => {
   const [activities, setActivities] = useState(undefined);
@@ -14,22 +14,9 @@ const AddActivity = ({ navigation }) => {
   const [searchToggleAnim] = useState(new Animated.Value(0));
   const [term, setTerm] = useState('');
   const [addLoading, setAddLoading] = useState(false);
-  const { tasks, setTasks } = useAppContext();
+  const { tasks, day } = useAppContext();
+
   console.log("🚀 ~ file: AddActivity.js ~ line 18 ~ AddActivity ~ tasks", JSON.stringify(tasks, null, 2))
-
-  const today = DateUtil.today();
-
-  const handleItemPress = (slug) => {
-    setTasks(
-      {
-        ...tasks,
-        [today]: {
-          ...tasks[today],
-          [slug]: tasks[today] && !tasks[today][slug] ? true : undefined
-        }
-      }
-    );
-  };
 
   const handleAddBtnPress = async () => {
     setAddLoading(true);
@@ -88,7 +75,7 @@ const AddActivity = ({ navigation }) => {
                     margin: 0,
                     color: "#000"
                   }]}>
-                  Today
+                  {day}
                 </Text>
               </View>
             </View>
@@ -96,8 +83,9 @@ const AddActivity = ({ navigation }) => {
 
           <SafeAreaView>
             <Search
+              term={term}
               onFocus={() => toggleSearch(true)}
-              term={term} onBlur={() => onBlur(false)}
+              onBlur={() => onBlur(false)}
               onChangeText={onSearch}
               dismiss={dismissSearch}
             />
@@ -111,10 +99,8 @@ const AddActivity = ({ navigation }) => {
             {activities &&
               <SearchResults
                 term={term}
-                showAll={!term}
                 activities={activities}
-                onItemPress={handleItemPress}
-                tasks={tasks[today]}
+                showAll={!term}
               />
             }
           </View>

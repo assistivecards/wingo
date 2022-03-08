@@ -1,17 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, View, SafeAreaView } from 'react-native';
-import API from '../api'
-import SearchItem from './SearchItem'
-import { DateUtil } from '../utils';
 import { useAppContext } from '../hooks';
+import SearchItem from './SearchItem'
+import API from '../api'
 
-
-const SearchResults = ({ term, activities, showAll, onItemPress }) => {
+const SearchResults = ({ term, activities, showAll }) => {
   const results = showAll ? activities : API.search(term, activities);
-  const { tasks } = useAppContext();
-  
-  const today = DateUtil.today();
+  const { tasks, dayDate, setTasks } = useAppContext();
 
+  const handleItemPress = (slug) => {
+    setTasks(
+      {
+        ...tasks,
+        [dayDate]: {
+          ...tasks[dayDate],
+          [slug]: tasks[dayDate] && !tasks[dayDate][slug] ? true : undefined
+        }
+      }
+    );
+  };
+  
   return (
     <SafeAreaView>
       <View style={styles.searchCarrier}>
@@ -22,8 +30,8 @@ const SearchResults = ({ term, activities, showAll, onItemPress }) => {
                 key={i}
                 result={result}
                 width={"100%"}
-                onPress={() => onItemPress(result.slug)}
-                selected={tasks && tasks[today] && tasks[today][result.slug]}
+                onPress={() => handleItemPress(result.slug)}
+                selected={tasks && tasks[dayDate] && tasks[dayDate][result.slug]}
               />
             );
           })

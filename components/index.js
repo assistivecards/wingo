@@ -1,3 +1,5 @@
+export { default as DayItem } from './DayItem';
+export { default as DayMenu } from './DayMenu';
 export { default as Loading } from './Loading';
 export { default as Profile } from './Profile';
 export { default as Promo } from './Promo';

@@ -4,18 +4,23 @@ import { Image as CachedImage } from "react-native-expo-image-cache";
 import { LinearGradient } from 'expo-linear-gradient';
 import Svg, { Line, Path } from 'react-native-svg';
 import TouchableScale from 'touchable-scale-btk';
-import { Loading, SearchItem } from '../components';
+import { Loading, SearchItem, DayMenu } from '../components';
 import { useAppContext, useForceUpdate } from '../hooks';
 import { StoreUtil, DateUtil } from '../utils';
 import API from '../api';
 
 const Home = ({ navigation }) => {
+  const forceUpdate = useForceUpdate();
   const [activities, setActivities] = useState(undefined);
   const [loading, setLoading] = useState(false);
-  const { tasks, setTasks } = useAppContext();
+  const { tasks, day, dayDate, setTasks } = useAppContext();
 
-  const today = DateUtil.today();
-  const forceUpdate = useForceUpdate();
+  useEffect(() => {
+    console.log('day:', day);
+  }, [day]);
+  useEffect(() => {
+    console.log('dayDate:', dayDate);
+  }, [dayDate]);
 
   const _refreshHandler = () => {
     console.log("refreshed");
@@ -35,19 +40,24 @@ const Home = ({ navigation }) => {
   };
 
   const syncTasks = async () => {
-    const tasks = await StoreUtil.getItem('@tasks');
-    if (tasks) {
-      const yesterday = DateUtil.yesterday();
-      const today = DateUtil.today();
-      const tomorrow = DateUtil.tomorrow();
+    try {
+      setLoading(true);
+      const tasks = await StoreUtil.getItem('@tasks');
+      if (tasks) {
+        const yesterday = DateUtil.yesterday();
+        const today = DateUtil.today();
+        const tomorrow = DateUtil.tomorrow();
 
-      const initialTasksObj = {
-        [yesterday]: tasks[yesterday] ? tasks[yesterday] : {},
-        [today]: tasks[today] ? tasks[today] : {},
-        [tomorrow]: tasks[tomorrow] ? tasks[tomorrow] : {},
-      };
+        const initialTasksObj = {
+          [yesterday]: tasks[yesterday] ? tasks[yesterday] : {},
+          [today]: tasks[today] ? tasks[today] : {},
+          [tomorrow]: tasks[tomorrow] ? tasks[tomorrow] : {},
+        };
 
-      setTasks(initialTasksObj);
+        setTasks(initialTasksObj);
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -99,22 +109,8 @@ const Home = ({ navigation }) => {
           </View>
 
           <View style={styles.content}>
-            <View style={{ paddingVertical: 10, paddingHorizontal: 30 }}>
-              <ScrollView
-                horizontal
-                showsVerticalScrollIndicator={false}
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", width: "100%" }}>
-                <Text style={{ fontSize: 20, fontWeight: "bold", opacity: 0.4, color: API.config.backgroundColor }}>Yesterday</Text>
-                <View
-                  style={{ backgroundColor: API.config.backgroundColor, paddingHorizontal: 15, paddingVertical: 8, borderRadius: 50 }}
-                >
-                  <Text style={{ fontSize: 20, fontWeight: "bold", color: 'white' }}>Today</Text>
-                </View>
-                <Text style={{ fontSize: 20, fontWeight: "bold", opacity: 0.4, color: API.config.backgroundColor }}>Tomorrow</Text>
 
-              </ScrollView>
-            </View>
+            <DayMenu />
 
             <View>{!activities || loading && <Loading />}</View>
 
@@ -137,15 +133,15 @@ const Home = ({ navigation }) => {
                 </View>
 
                 <View>
-                  {tasks && activities && activities.filter(activity => tasks[today] && tasks[today][activity.slug]).map((task, index) => (
+                  {tasks && activities && activities.filter(activity => tasks[dayDate] && tasks[dayDate][activity.slug]).map((task, index) => (
                     <SearchItem
                       key={index}
                       result={task}
                       width={"100%"}
                     />
                   ))}
-                  {tasks && (isEmptyObject(tasks) || isEmptyObject(tasks[today])) && (
-                    <Text style={{ textAlign: 'center' }}>Add some tasks for today</Text>
+                  {tasks && (isEmptyObject(tasks) || isEmptyObject(tasks[dayDate])) && (
+                    <Text style={{ textAlign: 'center' }}>Add some tasks for {day}</Text>
                   )}
                 </View>
               </>
