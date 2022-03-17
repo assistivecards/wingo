@@ -25,7 +25,7 @@ const Home = ({ navigation }) => {
   const _refreshHandler = () => {
     console.log("refreshed");
     forceUpdate();
-    // not affecting, todo
+    // TODO: not working
   };
 
   const getActivities = async (activities, force) => {
@@ -86,7 +86,6 @@ const Home = ({ navigation }) => {
       };
     },
   );
-  console.log("🚀 ~ file: Home.js ~ line 89 ~ Home ~ tasksToReturn", JSON.stringify(tasksToReturn, null, 2))
   const handleCompletePress = (slug) => {
     setTasks(
       {
@@ -102,6 +101,7 @@ const Home = ({ navigation }) => {
     );
   };
 
+  // TODO: Memoize or populate/update through global state on each action
   const allCount = tasksToReturn && tasksToReturn.length;
   const completedCount = tasksToReturn && tasksToReturn.filter(task => task.completed).length;
 

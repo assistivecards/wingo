@@ -4,32 +4,45 @@ import TouchableScale from 'touchable-scale-btk';
 import { ActivityIndicator, StatusBar, View, Text, Animated, SafeAreaView, KeyboardAvoidingView, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { ActivityList, Loading, Search } from '../components';
-import { StoreUtil } from '../utils';
+import { DateUtil } from '../utils';
 import { useAppContext } from '../hooks';
 import API from '../api';
 
 const AddActivity = ({ navigation }) => {
+  const { tasks, setTasks, day, dayDate } = useAppContext();
   const [activities, setActivities] = useState(undefined);
   const [search, setSearch] = useState(false);
   const [searchToggleAnim] = useState(new Animated.Value(0));
   const [term, setTerm] = useState('');
   const [addLoading, setAddLoading] = useState(false);
-  const { tasks, day, dayDate } = useAppContext();
+  const [newTasks, setNewTasks] = useState({});
 
   const handleAddBtnPress = async () => {
-    try {
-      setAddLoading(true);
-      await StoreUtil.setItem('@tasks', tasks);
-      setTimeout(() => {
-        navigation.pop();
-      }, 300);
-    } catch (error) {
-      console.log('error while persisting the tasks', error);
-    }
+    setAddLoading(true);
+    setTasks(newTasks);
+    setTimeout(() => {
+      navigation.pop();
+    }, 300);
+  };
+
+  const handleItemPress = (slug) => {
+    setNewTasks(
+      {
+        ...newTasks,
+        [dayDate]: {
+          ...newTasks[dayDate],
+          [slug]: newTasks[dayDate] && !newTasks[dayDate][slug] ? {
+            added: DateUtil.now(),
+            completed: null,
+          } : undefined
+        }
+      }
+    );
   };
 
   useEffect(() => {
     API.hit("AddActivity");
+    setNewTasks(tasks);
     setTimeout(() => {
       setActivities(
         tasks && tasks[dayDate]
@@ -66,6 +79,10 @@ const AddActivity = ({ navigation }) => {
     if (searchTerm != term) {
       setTerm(searchTerm);
     }
+  };
+
+  const getIsSelected = (slug) => {
+    return newTasks && newTasks[dayDate] && newTasks[dayDate][slug];
   };
 
   return (
@@ -109,6 +126,8 @@ const AddActivity = ({ navigation }) => {
                 term={term}
                 activities={activities}
                 showAll={!term}
+                onItemPress={handleItemPress}
+                getIsSelected={getIsSelected}
               />
             }
           </View>

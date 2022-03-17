@@ -1,28 +1,11 @@
 import React from 'react';
 import { StyleSheet, View, SafeAreaView } from 'react-native';
-import { DateUtil } from '../utils';
-import { useAppContext } from '../hooks';
 import ActivityItem from './ActivityItem'
 import API from '../api'
 
-const ActivityList = ({ term, activities, showAll }) => {
+const ActivityList = ({ term, activities, showAll, onItemPress, getIsSelected }) => {
   const results = showAll ? activities : API.search(term, activities);
-  const { tasks, dayDate, setTasks } = useAppContext();
 
-  const handleItemPress = (slug) => {
-    setTasks(
-      {
-        ...tasks,
-        [dayDate]: {
-          ...tasks[dayDate],
-          [slug]: tasks[dayDate] && !tasks[dayDate][slug] ? {
-            added: DateUtil.now(),
-            completed: null,
-          } : undefined
-        }
-      }
-    );
-  };
   return (
     <SafeAreaView>
       <View
@@ -37,8 +20,8 @@ const ActivityList = ({ term, activities, showAll }) => {
           <ActivityItem
             key={i}
             data={result}
-            onPress={() => handleItemPress(result.slug)}
-            selected={tasks && tasks[dayDate] && tasks[dayDate][result.slug]}
+            onPress={() => onItemPress(result.slug)}
+            selected={getIsSelected(result.slug)}
           />
         ))}
         <View style={{ width: "100%", height: 75 }}></View>
