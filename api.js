@@ -33,6 +33,7 @@ const API_ENDPOINT = APP.apiEndpoint;
 const ASSET_ENDPOINT = APP.assetEndpoint;
 const ASSET_VERSION = APP.assetVersion;
 const RTL = ["ar","ur","he"];
+const ARTWORK_ASPECT_RATIO = 1.33333333;
 
 let storage = new Storage({
 	size: 1000,
@@ -56,6 +57,7 @@ class Api {
 		this.styles = styles;
 		this.setSpeechEngine();
 		this.tasks = {};
+		this.artworkAspectRatio = ARTWORK_ASPECT_RATIO;
 
 		this.config = APP.config;
 		this.event = Event;

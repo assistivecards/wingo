@@ -30,7 +30,7 @@ const ActivityItem = ({ data, selected, onPress, speakOnPress = true }) => {
         <CachedImage
           uri={imageUrl}
           style={{
-            width: API.isTablet ? 160 : 140,
+            width: API.isTablet ? 160 * API.artworkAspectRatio : 140 * API.artworkAspectRatio,
             height: API.isTablet ? 160 : 140,
             margin: 5
           }}
