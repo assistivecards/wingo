@@ -23,8 +23,8 @@ const ActivityItem = ({ data, selected, onPress, speakOnPress = true }) => {
         style={[
           styles.item, {
             backgroundColor: 'rgba(99, 110, 182, 0.05)',
-            borderColor: selected && API.config.backgroundColor,
-            borderWidth: selected && 3,
+            borderColor: !selected ? API.config.panelColor : API.config.backgroundColor,
+            borderWidth: 3,
             padding: 10,
           }]}>
         <CachedImage
