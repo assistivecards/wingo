@@ -7,7 +7,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Loading, DayMenu, TaskItem, ProgressBar } from '../components';
 import { useAppContext, useForceUpdate } from '../hooks';
 import { StoreUtil, DateUtil } from '../utils';
-import { isEmpty } from '../utils/common';
 import API from '../api';
 
 const Home = ({ navigation }) => {
@@ -149,10 +148,10 @@ const Home = ({ navigation }) => {
                   style={{
                     paddingHorizontal: API.config.globalPadding,
                   }}>
-                  {tasksToReturn && tasksToReturn.map((task, index) => (
+                  {tasksToReturn && tasksToReturn.length > 0 && tasksToReturn.map((task, index) => (
                     <TaskItem key={index} data={task} onCompletePress={() => handleCompletePress(task.activity && task.activity.slug)} />
                   ))}
-                  {(tasks && tasks[dayDate] && isEmpty(tasks[dayDate])) && (
+                  {(!tasksToReturn || (tasksToReturn && tasksToReturn.length < 1)) && (
                     <Text style={{ textAlign: 'center', marginTop: 20 }}>Add some tasks for {day}</Text>
                   )}
                 </View>
