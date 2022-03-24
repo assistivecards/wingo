@@ -5,6 +5,7 @@ import { ActivityIndicator, StatusBar, View, Text, Animated, SafeAreaView, Keybo
 import { LinearGradient } from 'expo-linear-gradient';
 import { ActivityList, Loading, Search } from '../components';
 import { DateUtil } from '../utils';
+import { isEmpty } from '../utils/common';
 import { useAppContext } from '../hooks';
 import API from '../api';
 
@@ -16,6 +17,7 @@ const AddActivity = ({ navigation }) => {
   const [term, setTerm] = useState('');
   const [addLoading, setAddLoading] = useState(false);
   const [newTasks, setNewTasks] = useState({});
+  const [updated, setUpdated] = useState({});
 
   const handleAddBtnPress = async () => {
     setAddLoading(true);
@@ -38,6 +40,14 @@ const AddActivity = ({ navigation }) => {
         }
       }
     );
+    if (updated[slug]) {
+      delete updated[slug];
+    } else {
+      setUpdated({
+        ...updated,
+        [slug]: true,
+      });
+    }
   };
 
   useEffect(() => {
@@ -155,15 +165,23 @@ const AddActivity = ({ navigation }) => {
             justifyContent: "center",
             alignItems: "center"
           }}
-          onPress={handleAddBtnPress}
+          onPress={!isEmpty(updated) ? handleAddBtnPress : () => navigation.pop()}
         >
           {addLoading &&
             <ActivityIndicator color={API.config.panelColor} />
           }
           {!addLoading && (
-            <Svg viewBox="0 0 24 24" width={32} height={32}>
-              <Path fill={API.config.panelColor} d="M9 16.2l-3.5-3.5c-.39-.39-1.01-.39-1.4 0-.39.39-.39 1.01 0 1.4l4.19 4.19c.39.39 1.02.39 1.41 0L20.3 7.7c.39-.39.39-1.01 0-1.4-.39-.39-1.01-.39-1.4 0L9 16.2z"></Path>
-            </Svg>
+            <>
+              {!isEmpty(updated) ? (
+                <Svg viewBox="0 0 24 24" width={32} height={32}>
+                  <Path fill={API.config.panelColor} d="M9 16.2l-3.5-3.5c-.39-.39-1.01-.39-1.4 0-.39.39-.39 1.01 0 1.4l4.19 4.19c.39.39 1.02.39 1.41 0L20.3 7.7c.39-.39.39-1.01 0-1.4-.39-.39-1.01-.39-1.4 0L9 16.2z"></Path>
+                </Svg>
+              ) : (
+                <Svg viewBox="0 0 24 24" width={32} height={32}>
+                  <Path fill={API.config.panelColor} d="M18.3 5.71c-.39-.39-1.02-.39-1.41 0L12 10.59 7.11 5.7c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41L10.59 12 5.7 16.89c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0L12 13.41l4.89 4.89c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L13.41 12l4.89-4.89c.38-.38.38-1.02 0-1.4z" />
+                </Svg>
+              )}
+            </>
           )}
         </TouchableScale>
       </LinearGradient>
