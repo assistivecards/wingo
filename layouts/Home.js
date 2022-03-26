@@ -8,6 +8,7 @@ import { Loading, DayMenu, TaskItem, ProgressBar } from '../components';
 import { useAppContext, useForceUpdate } from '../hooks';
 import { StoreUtil, DateUtil } from '../utils';
 import API from '../api';
+import { sortByKey } from '../utils/common';
 
 const Home = ({ navigation }) => {
   const forceUpdate = useForceUpdate();
@@ -82,6 +83,7 @@ const Home = ({ navigation }) => {
       };
     },
   );
+  
   const handleCompletePress = (slug) => {
     setTasks(
       {
@@ -148,7 +150,7 @@ const Home = ({ navigation }) => {
                   style={{
                     paddingHorizontal: API.config.globalPadding,
                   }}>
-                  {tasksToReturn && tasksToReturn.length > 0 && tasksToReturn.map((task, index) => (
+                  {tasksToReturn && tasksToReturn.length > 0 && sortByKey(tasksToReturn, 'added').map((task, index) => (
                     <TaskItem key={index} data={task} onCompletePress={() => handleCompletePress(task.activity && task.activity.slug)} />
                   ))}
                   {(!tasksToReturn || (tasksToReturn && tasksToReturn.length < 1)) && (
