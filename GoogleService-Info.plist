@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>820330775632-i28u1citdr41is43qgbdg48km35n7b8g.apps.googleusercontent.com</string>
+	<string>710076182720-3obcau1fehl4paspemp7mr6gevem1ue2.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.820330775632-i28u1citdr41is43qgbdg48km35n7b8g</string>
+	<string>com.googleusercontent.apps.710076182720-3obcau1fehl4paspemp7mr6gevem1ue2</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCjrMT_Lcql09vxXN6yuobu_-BkeBFJnSc</string>
+	<string>AIzaSyCqanpxH3zbL5u9QFZLJGBqMkJph6ux3RY</string>
 	<key>GCM_SENDER_ID</key>
-	<string>820330775632</string>
+	<string>710076182720</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.dreamoriented.template</string>
+	<string>org.dreamoriented.wingo</string>
 	<key>PROJECT_ID</key>
-	<string>template-3fe56</string>
+	<string>wingo-39baf</string>
 	<key>STORAGE_BUCKET</key>
-	<string>template-3fe56.appspot.com</string>
+	<string>wingo-39baf.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:820330775632:ios:80800801cf07f3c79cbd55</string>
+	<string>1:710076182720:ios:fd7513198f131b0b153d25</string>
 </dict>
 </plist>
