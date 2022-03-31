@@ -9,7 +9,7 @@ import * as Device from 'expo-device';
 import * as InAppPurchases from 'expo-in-app-purchases';
 import * as Notifications from 'expo-notifications';
 
-import { Analytics, ScreenHit, Event as Avent } from 'expo-analytics-safe';
+import { Analytics, ScreenHit, Event as Avent } from 'expo-analytics';
 import { CacheManager } from "react-native-expo-image-cache";
 import Constants from 'expo-constants';
 import NetInfo from '@react-native-community/netinfo';

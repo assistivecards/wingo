@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "710076182720",
+    "project_id": "wingo-39baf",
+    "storage_bucket": "wingo-39baf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:710076182720:android:9ac33b0c24658432153d25",
+        "android_client_info": {
+          "package_name": "org.dreamoriented.wingo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "710076182720-7j6sboas2c50htlhi3skfanphhcmct30.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOGnQjbUz1QnYWyimN67yNjSHf_heuFD4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "710076182720-7j6sboas2c50htlhi3skfanphhcmct30.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>710076182720-3obcau1fehl4paspemp7mr6gevem1ue2.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.710076182720-3obcau1fehl4paspemp7mr6gevem1ue2</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCqanpxH3zbL5u9QFZLJGBqMkJph6ux3RY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>710076182720</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.dreamoriented.wingo</string>
+	<key>PROJECT_ID</key>
+	<string>wingo-39baf</string>
+	<key>STORAGE_BUCKET</key>
+	<string>wingo-39baf.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:710076182720:ios:fd7513198f131b0b153d25</string>
+</dict>
+</plist>
