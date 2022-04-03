@@ -25,11 +25,17 @@
     "name": "wingo",
     "slug": "wingo",
     "version": "1.0.0",
+    "image": "./assets/icon.png",
     "platforms": [
       "ios",
       "android",
       "web"
     ],
+    "splash": {
+      "image": "./assets/splash.png",
+      "backgroundColor": "#FEF9B0",
+      "resizeMode": "cover"
+    },
     "ios": {
       "bundleIdentifier": "org.dreamoriented.wingo",
       "buildNumber": "1.0.0",
