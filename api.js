@@ -1,5 +1,6 @@
 import Storage from 'react-native-storage';
-import { AsyncStorage, Platform, Alert } from 'react-native';
+import { Platform, Alert } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import Speech from 'react-native-tts';
 import * as Localization from 'expo-localization';
