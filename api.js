@@ -266,7 +266,8 @@ class Api {
 			voice: voice.identifier,
 			language: lang,
 			haptic: 1,
-			pressIn: 0
+			pressIn: 0,
+			greeding: 1
 		}
 
 		await this.setData("user", JSON.stringify(user));

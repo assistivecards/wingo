@@ -60,8 +60,10 @@ const Home = ({ navigation }) => {
 
   useEffect(() => {
     API.hit("Home");
-    API.speak(API.t("hello_you", API.user.name));
-
+    if(API.user.greeding){
+      API.speak(API.t("hello_you", API.user.name));
+    }
+    
     API.event.on("refresh", _refreshHandler);
     API.event.on("premium", _refreshHandler);
 
@@ -83,7 +85,7 @@ const Home = ({ navigation }) => {
       };
     },
   );
-  
+
   const handleCompletePress = (slug) => {
     setTasks(
       {
