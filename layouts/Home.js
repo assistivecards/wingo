@@ -63,7 +63,7 @@ const Home = ({ navigation }) => {
     if(API.user.greeding){
       API.speak(API.t("hello_you", API.user.name));
     }
-    
+
     API.event.on("refresh", _refreshHandler);
     API.event.on("premium", _refreshHandler);
 
@@ -110,30 +110,28 @@ const Home = ({ navigation }) => {
       <StatusBar backgroundColor={API.config.backgroundColor} barStyle={"light-content"} />
 
       <ScrollView contentInsetAdjustmentBehavior="automatic" keyboardShouldPersistTaps="handled" keyboardDismissMode={"on-drag"} style={{ flex: 1, backgroundColor: API.config.backgroundColor }}>
-        <SafeAreaView style={{ flex: 1 }}>
-          <View style={{ flexDirection: "column", justifyContent: "flex-start", alignItems: "flex-end" }}>
-            <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", flex: 1 }}>
-              <TouchableOpacity style={styles.avatarHolder} onPress={() => navigation.navigate("Settings")}>
-                <View style={styles.avatar}>
-                  <CachedImage uri={`${API.assetEndpoint}cards/avatar/${API.user.avatar}.png?v=${API.version}`}
-                    style={{ width: 40, height: 40, position: "relative", top: 4 }}
-                    resizeMode={"contain"}
-                  />
-                </View>
-                <View style={styles.avatarIcon}>
-                  <Svg width={11} height={11} viewBox="0 0 8 4">
-                    <Line x1="1" x2="7" y1="0.8" y2="0.8" fill="none" stroke={API.config.backgroundColor} strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" />
-                    <Line x1="1" x2="7" y1="3.2" y2="3.2" fill="none" stroke={API.config.backgroundColor} strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" />
-                  </Svg>
-                </View>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </SafeAreaView>
 
         <SafeAreaView>
-          <Text style={[API.styles.h1, { color: "white", marginBottom: 40 }]}>Hello, {API.user.name}</Text>
-          <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
+          <View style={{flexDirection: "row", justifyContent: "space-between"}}>
+            <Text style={[API.styles.h1, { color: "white", marginBottom: 20, marginTop: 20}]}>Hello, {API.user.name}</Text>
+            <View style={{ flexDirection: "column", justifyContent: "flex-start", alignItems: "flex-end" }}>
+              <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", flex: 1 }}>
+                <TouchableOpacity style={styles.avatarHolder} onPress={() => navigation.navigate("Settings")}>
+                  <View style={styles.avatar}>
+                    <CachedImage uri={`${API.assetEndpoint}cards/avatar/${API.user.avatar}.png?v=${API.version}`}
+                      style={{ width: 40, height: 40, position: "relative", top: 4 }}
+                      resizeMode={"contain"}
+                    />
+                  </View>
+                  <View style={styles.avatarIcon}>
+                    <Svg width={11} height={11} viewBox="0 0 8 4">
+                      <Line x1="1" x2="7" y1="0.8" y2="0.8" fill="none" stroke={API.config.backgroundColor} strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" />
+                      <Line x1="1" x2="7" y1="3.2" y2="3.2" fill="none" stroke={API.config.backgroundColor} strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" />
+                    </Svg>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
 
           <View style={styles.content}>
