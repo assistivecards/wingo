@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View, Text } from 'react-native';
 import TouchableScale from 'touchable-scale-btk';
 import API from '../api';

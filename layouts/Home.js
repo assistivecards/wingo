@@ -60,7 +60,7 @@ const Home = ({ navigation }) => {
 
   useEffect(() => {
     API.hit("Home");
-    if(API.user.greeding){
+    if (API.user.greeding) {
       API.speak(API.t("hello_you", API.user.name));
     }
 
@@ -112,8 +112,8 @@ const Home = ({ navigation }) => {
       <ScrollView contentInsetAdjustmentBehavior="automatic" keyboardShouldPersistTaps="handled" keyboardDismissMode={"on-drag"} style={{ flex: 1, backgroundColor: API.config.backgroundColor }}>
 
         <SafeAreaView>
-          <View style={{flexDirection: "row", justifyContent: "space-between"}}>
-            <Text style={[API.styles.h1, { color: "white", marginBottom: 20, marginTop: 20}]}>Hello, {API.user.name}</Text>
+          <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+            <Text style={[API.styles.h1, { color: "white", marginBottom: 20, marginTop: 20 }]}>Hello, {API.user.name}</Text>
             <View style={{ flexDirection: "column", justifyContent: "flex-start", alignItems: "flex-end" }}>
               <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", flex: 1 }}>
                 <TouchableOpacity style={styles.avatarHolder} onPress={() => navigation.navigate("Settings")}>
@@ -154,7 +154,13 @@ const Home = ({ navigation }) => {
                     <TaskItem key={index} data={task} onCompletePress={() => handleCompletePress(task.activity && task.activity.slug)} />
                   ))}
                   {(!tasksToReturn || (tasksToReturn && tasksToReturn.length < 1)) && (
-                    <Text style={{ textAlign: 'center', marginTop: 20 }}>Add some tasks for {day}</Text>
+                    <Text
+                      style={[API.styles.p, {
+                        textAlign: 'center',
+                        marginTop: 20
+                      }]}>
+                      Add some tasks for {day}
+                    </Text>
                   )}
                 </View>
               </>
