@@ -16,39 +16,46 @@ const ProgressBar = ({ completedCount, allCount }) => {
     speak(`${successMessage} ${successDescription}`);
   };
 
-  return (
-    <>
-      {completedCount === allCount && (
-        <TouchableScale style={{ width: '100%' }} onPress={handleCongratsPress}>
-          <View style={{
-            marginTop: 10,
-            paddingVertical: 7,
-            borderRadius: 10,
-            backgroundColor: API.config.successBgColor,
-            marginHorizontal: API.config.globalPadding,
-          }}>
+  const renderProgressBar = (success = false) => {
+    if (success) {
+      return (
+        <View
+          style={{
+            marginVertical: 5,
+            paddingHorizontal: API.config.globalPadding,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              height: 10,
+              width: '85%',
+              backgroundColor: API.config.successColor,
+              borderBottomLeftRadius: 10,
+              borderTopLeftRadius: 10,
+              borderBottomRightRadius: 10,
+              borderTopRightRadius: 10,
+            }} />
+          <View style={{ width: '15%' }}>
             <Text
-              style={[API.styles.h1,
-              {
-                marginBottom: -3,
-                fontSize: 26,
-                marginHorizontal: 0,
-                marginVertical: 10,
-                textAlign: 'center',
+              style={{
+                fontSize: 20,
+                fontWeight: 'bold',
+                textAlign: 'right',
                 color: API.config.successColor,
-              }]}>
-              {successMessage}
-            </Text>
-            <Text style={[API.styles.p,
-            {
-              marginHorizontal: 0,
-              textAlign: 'center'
-            }]}>
-              {successDescription}
+              }}>
+              {completedCount}/{allCount}
             </Text>
           </View>
-        </TouchableScale>
-      )}
+        </View>
+      );
+    }
+    return (
       <View
         style={{
           marginVertical: 10,
@@ -94,6 +101,48 @@ const ProgressBar = ({ completedCount, allCount }) => {
           </Text>
         </View>
       </View>
+    )
+  };
+
+  return (
+    <>
+      {completedCount === allCount && (
+        <TouchableScale style={{ width: '100%', marginBottom: 10 }} onPress={handleCongratsPress}>
+          <View style={{
+            marginTop: 10,
+            paddingVertical: 7,
+            borderRadius: 10,
+            backgroundColor: API.config.successBgColor,
+            marginHorizontal: API.config.globalPadding,
+          }}>
+            <Text
+              style={[API.styles.h1,
+              {
+                marginBottom: -3,
+                fontSize: 26,
+                marginHorizontal: 0,
+                marginVertical: 10,
+                textAlign: 'center',
+                color: API.config.successColor,
+              }]}>
+              {successMessage}
+            </Text>
+            <Text style={[API.styles.p,
+            {
+              marginHorizontal: 0,
+              textAlign: 'center'
+            }]}>
+              {successDescription}
+            </Text>
+            <View style={{ marginTop: -10 }}>
+              {renderProgressBar(true)}
+            </View>
+          </View>
+        </TouchableScale>
+      )}
+      {!(completedCount === allCount) && (
+        <>{renderProgressBar()}</>
+      )}
     </>
   );
 };
