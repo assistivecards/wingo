@@ -14,26 +14,15 @@ const DayItem = ({ day, onPress, selected }) => {
           borderRadius: 50
         }}
       >
-        {!selected ? (
-          <Text
-            style={{
-              fontSize: 20,
-              fontWeight: "bold",
-              opacity: 0.4,
-              color: API.config.backgroundColor
-            }}>
-            {day}
-          </Text>
-        ) : (
-          <Text
-            style={{
-              fontSize: 20,
-              fontWeight: "bold",
-              color: API.config.panelColor,
-            }}>
-            {day}
-          </Text>
-        )}
+        <Text
+          style={{
+            fontSize: 20,
+            fontWeight: "bold",
+            color: !selected ? API.config.backgroundColor : API.config.panelColor,
+            opacity: !selected ? 0.4 : 1,
+          }}>
+          {API.t(day)}
+        </Text>
       </View>
     </TouchableScale>
   );

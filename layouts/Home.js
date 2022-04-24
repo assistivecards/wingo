@@ -113,7 +113,7 @@ const Home = ({ navigation }) => {
 
         <SafeAreaView>
           <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-            <Text style={[API.styles.h1, { color: "white", marginBottom: 20, marginTop: 20 }]}>Hello, {API.user.name}</Text>
+            <Text style={[API.styles.h1, { color: "white", marginBottom: 20, marginTop: 20 }]}>{API.t("hello_you", API.user.name)}</Text>
             <View style={{ flexDirection: "column", justifyContent: "flex-start", alignItems: "flex-end" }}>
               <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", flex: 1 }}>
                 <TouchableOpacity style={styles.avatarHolder} onPress={() => navigation.navigate("Settings")}>
@@ -159,7 +159,7 @@ const Home = ({ navigation }) => {
                         textAlign: 'center',
                         marginTop: 20
                       }]}>
-                      Add some tasks for {day}
+                      + {API.t('add_tasks_title')}
                     </Text>
                   )}
                 </View>

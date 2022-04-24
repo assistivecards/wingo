@@ -4,8 +4,8 @@ import TouchableScale from 'touchable-scale-btk';
 import API from '../api';
 
 const ProgressBar = ({ completedCount, allCount }) => {
-  const successMessage = 'Congratulations!';
-  const successDescription = 'You completed all your tasks.';
+  const successMessage = API.t("congrats_title");
+  const successDescription = API.t("congrats_description");
 
   const speak = (text, speed) => {
     API.haptics("touch");

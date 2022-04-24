@@ -110,7 +110,7 @@ const AddActivity = ({ navigation }) => {
                     margin: 0,
                     color: "#000"
                   }]}>
-                  {day}
+                  {API.t(day)}
                 </Text>
               </View>
             </View>

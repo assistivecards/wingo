@@ -176,5 +176,14 @@
 	"edit_profile": "Edit your profile",
 	"alert_yourDeviceDoesNotSupportTTS": "Your device doesn't support voice driver for this language. In order to use TTS capabilities, you need to install a voice driver. You can try 'Google TTS' app to install and manage drivers!",
 	"alert_ok": "OK",
-	"alert_cancel": "Cancel"
+	"alert_cancel": "Cancel",
+
+	"congrats_title": "Congratulations!",
+	"congrats_description": "You completed all your tasks.",
+
+	"yesterday": "Yesterday",
+	"today": "Today",
+	"tomorrow": "Tomorrow",
+
+	"add_tasks_title": "Add some tasks"
 }
