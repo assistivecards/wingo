@@ -59,7 +59,7 @@ const AddActivity = ({ navigation }) => {
           ? API.activities.filter(activity => !tasks[dayDate][activity.slug])
           : API.activities
       );
-    }, 200);
+    }, 400);
   }, []);
 
   const toggleSearch = (status) => {
