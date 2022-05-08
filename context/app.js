@@ -12,14 +12,19 @@ export const AppContext = createContext({
 });
 
 export const AppProvider = ({ children }) => {
-  const [tasks, setTasks] = useState({});
+  const yesterday = DateUtil.yesterday();
+  const today = DateUtil.today();
+  const tomorrow = DateUtil.tomorrow();
+
+  const [tasks, setTasks] = useState({
+    [yesterday]: {},
+    [today]: {},
+    [tomorrow]: {}
+  });
   const [day, setDay] = useState(DAY.today);
   const [dayDate, setDayDate] = useState(DateUtil.today());
 
   useEffect(() => {
-    const yesterday = DateUtil.yesterday();
-    const today = DateUtil.today();
-    const tomorrow = DateUtil.tomorrow();
     if (day) {
       if (day === DAY.yesterday) {
         setDayDate(yesterday);
