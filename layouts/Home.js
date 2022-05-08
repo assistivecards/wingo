@@ -5,13 +5,12 @@ import { StyleSheet, StatusBar, View, SafeAreaView, Text, ScrollView, TouchableO
 import { Image as CachedImage } from "react-native-expo-image-cache";
 import { LinearGradient } from 'expo-linear-gradient';
 import { Loading, DayMenu, TaskItem, ProgressBar } from '../components';
-import { useAppContext, useForceUpdate } from '../hooks';
+import { useAppContext } from '../hooks';
 import { StoreUtil, DateUtil } from '../utils';
 import API from '../api';
 import { sortByKey } from '../utils/common';
 
 const Home = ({ navigation }) => {
-  const forceUpdate = useForceUpdate();
   const [activities, setActivities] = useState(undefined);
   const [loading, setLoading] = useState(false);
   const { tasks, day, dayDate, setTasks } = useAppContext();
@@ -25,8 +24,9 @@ const Home = ({ navigation }) => {
 
   const _refreshHandler = () => {
     console.log("refreshed");
-    forceUpdate();
-    // TODO: not working
+
+    getActivities([], true);
+    API.initSpeech();
   };
 
   const getActivities = async (activities, force) => {
