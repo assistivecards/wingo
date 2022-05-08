@@ -14,7 +14,10 @@ const ActivityItem = ({ data, selected, onPress, speakOnPress = true }) => {
 
   const handlePress = () => {
     onPress && onPress();
-    speakOnPress && speak(data.title);
+
+    setTimeout(() => {
+      speakOnPress && speak(data.title);
+    }, 100);
   };
 
   return (
