@@ -5,9 +5,9 @@ PODS:
     - ExpoModulesCore
   - EXBlur (11.0.0):
     - ExpoModulesCore
-  - EXConstants (13.0.2):
+  - EXConstants (13.1.1):
     - ExpoModulesCore
-  - EXDevice (4.1.1):
+  - EXDevice (4.2.0):
     - ExpoModulesCore
   - EXErrorRecovery (3.0.5):
     - ExpoModulesCore
@@ -548,8 +548,8 @@ SPEC CHECKSUMS:
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   EXApplication: 54fe5bd6268d697771645e8f1aef8b806a65247a
   EXBlur: 82055865de17cf2cf797ff064c50fb59fcbe703f
-  EXConstants: 88bf79622fbd9b476c96d8ec57fe97ca44fe8e3c
-  EXDevice: aa5e1edbf350481a948c3258b750dd11e6e4579e
+  EXConstants: fdbe52259365b6a6faaa5e99a3b82cfa6bc2eb61
+  EXDevice: 0115b360059ccd32c1701744e374e3259ffbdd3c
   EXErrorRecovery: b0d7582714a2cc896e94a2308a356f94dbf14ef7
   EXFileSystem: 08a3033ac372b6346becf07839e1ccef26fb1058
   EXFont: 2597c10ac85a69d348d44d7873eccf5a7576ef5e
@@ -606,4 +606,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: edb29a0edbd7c00e3bbdd249736f2d784d652f1d
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3

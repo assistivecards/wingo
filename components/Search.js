@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     flex: 1,
     paddingTop: 5,
-    paddingBottom: 5
+    paddingBottom: 5,
   },
   textInput: {
     fontSize: 17,

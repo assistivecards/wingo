@@ -107,9 +107,18 @@ const Home = ({ navigation }) => {
 
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
+      <SafeAreaView style={{ backgroundColor: API.config.backgroundColor }}></SafeAreaView>
+
       <StatusBar backgroundColor={API.config.backgroundColor} barStyle={"light-content"} />
 
-      <ScrollView contentInsetAdjustmentBehavior="automatic" keyboardShouldPersistTaps="handled" keyboardDismissMode={"on-drag"} style={{ flex: 1, backgroundColor: API.config.backgroundColor }}>
+      <ScrollView
+        stickyHeaderIndices={[1]}
+        contentInsetAdjustmentBehavior="automatic"
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode={"on-drag"}
+        style={{ flex: 1, backgroundColor: API.config.backgroundColor }}
+        contentContainerStyle={{ flexGrow: 1 }}
+      >
 
         <SafeAreaView>
           <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
@@ -120,8 +129,7 @@ const Home = ({ navigation }) => {
                   <View style={styles.avatar}>
                     <CachedImage uri={`${API.assetEndpoint}cards/avatar/${API.user.avatar}.png?v=${API.version}`}
                       style={{ width: 40, height: 40, position: "relative", top: 4 }}
-                      resizeMode={"contain"}
-                    />
+                      resizeMode={"contain"} />
                   </View>
                   <View style={styles.avatarIcon}>
                     <Svg width={11} height={11} viewBox="0 0 8 4">
@@ -133,41 +141,43 @@ const Home = ({ navigation }) => {
               </View>
             </View>
           </View>
-
-          <View style={styles.content}>
-
-            <DayMenu />
-
-            <View>{(!activities || loading) && <Loading />}</View>
-
-            {activities && (
-              <>
-                <View style={{ borderBottomColor: 'grey', borderBottomWidth: 1, opacity: 0.2, paddingVertical: 3 }} />
-
-                {allCount > 0 && <ProgressBar completedCount={completedCount} allCount={allCount} />}
-
-                <View
-                  style={{
-                    paddingHorizontal: API.config.globalPadding,
-                  }}>
-                  {tasksToReturn && tasksToReturn.length > 0 && sortByKey(tasksToReturn, 'added').map((task, index) => (
-                    <TaskItem key={index} data={task} onCompletePress={() => handleCompletePress(task.activity && task.activity.slug)} />
-                  ))}
-                  {(!tasksToReturn || (tasksToReturn && tasksToReturn.length < 1)) && (
-                    <Text
-                      style={[API.styles.p, {
-                        textAlign: 'center',
-                        marginTop: 20
-                      }]}>
-                      + {API.t('add_tasks_title')}
-                    </Text>
-                  )}
-                </View>
-              </>
-            )}
-          </View>
-          <View style={API.styles.iosBottomPadder}></View>
         </SafeAreaView>
+
+
+        <SafeAreaView>
+          <View style={styles.dayMenu}>
+            <DayMenu />
+          </View>
+        </SafeAreaView>
+
+        <View style={styles.content}>
+          <View>{(!activities || loading) && <Loading />}</View>
+          {activities && (
+            <>
+              {allCount > 0 && <ProgressBar completedCount={completedCount} allCount={allCount} />}
+
+              <View
+                style={{
+                  paddingHorizontal: API.config.globalPadding,
+                }}>
+                {tasksToReturn && tasksToReturn.length > 0 && sortByKey(tasksToReturn, 'added').map((task, index) => (
+                  <TaskItem key={index} data={task} onCompletePress={() => handleCompletePress(task.activity && task.activity.slug)} />
+                ))}
+                {(!tasksToReturn || (tasksToReturn && tasksToReturn.length < 1)) && (
+                  <Text
+                    style={[API.styles.p, {
+                      textAlign: 'center',
+                      marginTop: 20
+                    }]}>
+                    + {API.t('add_tasks_title')}
+                  </Text>
+                )}
+              </View>
+            </>
+          )}
+        </View>
+
+        <View style={API.styles.iosBottomPadder}></View>
       </ScrollView>
 
       <LinearGradient colors={[API.config.transparentPanelColor, API.config.panelColor, API.config.panelColor]} style={{
@@ -204,7 +214,6 @@ const Home = ({ navigation }) => {
           </Svg>
         </TouchableScale>
       </LinearGradient>
-
     </View>
   );
 };
@@ -300,12 +309,18 @@ const styles = StyleSheet.create({
     marginTop: 10,
     height: 60,
   },
-  content: {
+  dayMenu: {
     backgroundColor: "#fff",
     position: "relative",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    paddingTop: 10,
+    height: '100%',
+    borderBottomColor: '#EAEBEE',
+    borderBottomWidth: 1,
+    paddingVertical: 3
+  },
+  content: {
+    backgroundColor: "#fff",
     height: '100%',
   },
 });
