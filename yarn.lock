@@ -2164,6 +2164,11 @@
   dependencies:
     "@types/yargs-parser" "*"
 
+"@vseslav/react-native-horizontal-picker@0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@vseslav/react-native-horizontal-picker/-/react-native-horizontal-picker-0.1.1.tgz#748b4cd287988de5e4ff76e2a6454c43e2d37478"
+  integrity sha512-fwnl4NRFxZkTAdLGrxHprsGAun221Q5pMkUyXCPxOBqE1jxDUfCLhhdywT4+KKIOqEx3zfOE1ZZZw45drCcADA==
+
 "@xmldom/xmldom@~0.7.0":
   version "0.7.5"
   resolved "https://registry.yarnpkg.com/@xmldom/xmldom/-/xmldom-0.7.5.tgz#09fa51e356d07d0be200642b0e4f91d8e6dd408d"
@@ -7074,6 +7079,11 @@ react-native-reanimated@~2.3.1:
     mockdate "^3.0.2"
     react-native-screens "^3.4.0"
     string-hash-64 "^1.0.3"
+
+react-native-responsive-screen@1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/react-native-responsive-screen/-/react-native-responsive-screen-1.4.2.tgz#45280826d24f9accbfdf46a36cb8e6d780f76f28"
+  integrity sha512-BLYz0UUpeohrib7jbz6wDmtBD5OmiuMRko4IT8kIF63taXPod/c5iZgmWnr5qOnK8hMuKiGMvsM3sC+eHX/lEQ==
 
 react-native-safe-area-context@3.3.2:
   version "3.3.2"

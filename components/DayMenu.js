@@ -1,34 +1,42 @@
-import React from 'react';
-import { View, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import HorizontalPicker from '@vseslav/react-native-horizontal-picker';
+import { View } from 'react-native';
 import { DAY } from '../constants';
 import { useAppContext } from '../hooks';
+import { ResponsiveUtil } from '../utils';
 import DayItem from './DayItem';
 import API from '../api';
 
+const INITIAL_DAY_INDEX = 1;
+
 const DayMenu = () => {
-  const { day, setDay } = useAppContext();
+  const { setDay } = useAppContext();
+  const [dayIndex, setDayIndex] = useState(INITIAL_DAY_INDEX)
+
+  const renderItem = (item, index) => {
+    return (
+      <DayItem
+        key={index}
+        day={item}
+        selected={index === dayIndex}
+      />
+    )
+  };
+
+  const handleChange = (index) => {
+    setDayIndex(index);
+    setDay(Object.values(DAY)[index]);
+  }
+
   return (
     <View style={{ paddingVertical: 10, paddingHorizontal: API.config.globalPadding }}>
-      <ScrollView
-        horizontal
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          width: "100%"
-        }}
-      >
-        {Object.entries(DAY).map(([key, data]) => (
-          <DayItem
-            key={key}
-            day={data}
-            onPress={() => setDay(data)}
-            selected={data === day}
-          />
-        ))}
-      </ScrollView>
+      <HorizontalPicker
+        data={Object.values(DAY)}
+        renderItem={renderItem}
+        itemWidth={ResponsiveUtil.wp(30)}
+        defaultIndex={INITIAL_DAY_INDEX}
+        onChange={handleChange}
+      />
     </View>
   );
 };
