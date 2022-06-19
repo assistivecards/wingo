@@ -6,9 +6,11 @@ export const AppContext = createContext({
   tasks: {},
   day: DAY.today,
   dayDate: DateUtil.today(),
+  isEditing: false,
   setTasks: () => null,
   setDay: () => null,
   setDayDate: () => null,
+  setIsEditing: () => null,
 });
 
 export const AppProvider = ({ children }) => {
@@ -23,6 +25,7 @@ export const AppProvider = ({ children }) => {
   });
   const [day, setDay] = useState(DAY.today);
   const [dayDate, setDayDate] = useState(DateUtil.today());
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     if (day) {
@@ -57,9 +60,11 @@ export const AppProvider = ({ children }) => {
         tasks,
         day,
         dayDate,
+        isEditing,
         setTasks,
         setDay,
         setDayDate,
+        setIsEditing,
       }}>
       {children}
     </AppContext.Provider>

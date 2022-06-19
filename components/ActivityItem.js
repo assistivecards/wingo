@@ -1,10 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Image as CachedImage } from "react-native-expo-image-cache";
 import TouchableScale from 'touchable-scale-btk';
+import Svg, { Path } from 'react-native-svg';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { Image as CachedImage } from "react-native-expo-image-cache";
+import { useAppContext } from '../hooks'
 import API from '../api'
 
-const ActivityItem = ({ data, selected, onPress, speakOnPress = true }) => {
+const ActivityItem = ({ data, selected, onPress, speakOnPress = true, showEditing = false }) => {
+  const { isEditing } = useAppContext();
+
   const imageUrl = `${API.assetEndpoint}activities/assets/${data.slug}.png?v=${API.version}`;
 
   const speak = (text, speed) => {
@@ -21,34 +25,69 @@ const ActivityItem = ({ data, selected, onPress, speakOnPress = true }) => {
   };
 
   return (
-    <TouchableScale style={{ width: '100%' }} onPress={handlePress}>
-      <View
-        style={[
-          styles.item, {
-            backgroundColor: 'rgba(99, 110, 182, 0.05)',
-            borderColor: !selected ? API.config.panelColor : API.config.backgroundColor,
-            borderWidth: 3,
-            padding: 10,
-          }]}>
-        <CachedImage
-          uri={imageUrl}
-          style={{
-            width: API.isTablet ? 160 * API.artworkAspectRatio : 140 * API.artworkAspectRatio,
-            height: API.isTablet ? 160 : 140,
-            margin: 5
-          }}
-        />
-        <Text
-          style={[styles.searchItemText, {
-            fontSize: 19,
-            marginLeft: 10,
-            marginTop: 10,
-          }]}
-        >
-          {data.title}
-        </Text>
-      </View>
-    </TouchableScale>
+    <View style={{ flexDirection: 'row' }}>
+      {(showEditing && isEditing) && (
+        <TouchableOpacity style={{ zIndex: 100 }} onPress={() => console.log('reorder')}>
+          <View
+            style={{
+              position: 'absolute',
+              left: 10,
+              top: '50%',
+              height: 24,
+              width: 24,
+            }}>
+            <Svg height={24} width={24} viewBox="0 0 24 24" style={{ opacity: 0.9 }}>
+              <Path fill={API.config.backgroundColor} d="M11 18c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zm-2-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></Path>
+            </Svg>
+          </View>
+        </TouchableOpacity>
+      )}
+
+      <TouchableScale style={{ width: '100%' }} onPress={handlePress}>
+        <View
+          style={[
+            styles.item, {
+              backgroundColor: 'rgba(99, 110, 182, 0.05)',
+              borderColor: !selected ? API.config.panelColor : API.config.backgroundColor,
+              borderWidth: 3,
+              padding: 10,
+            }]}>
+          <CachedImage
+            uri={imageUrl}
+            style={{
+              width: API.isTablet ? 160 * API.artworkAspectRatio : 140 * API.artworkAspectRatio,
+              height: API.isTablet ? 160 : 140,
+              margin: 5
+            }}
+          />
+          <Text
+            style={[styles.searchItemText, {
+              fontSize: 19,
+              marginLeft: 10,
+              marginTop: 10,
+            }]}
+          >
+            {data.title}
+          </Text>
+        </View>
+      </TouchableScale>
+
+      {(showEditing && isEditing) && (
+        <TouchableOpacity style={{ zIndex: 100 }} onPress={() => console.log('delete')}>
+          <View
+            style={{
+              position: 'absolute',
+              right: 10,
+              top: '50%',
+            }}>
+            <Svg height={24} width={24} viewBox="0 0 24 24" style={{ opacity: 0.9 }}>
+              <Path fill={API.config.backgroundColor} d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 11H8c-.55 0-1-.45-1-1s.45-1 1-1h8c.55 0 1 .45 1 1s-.45 1-1 1z"></Path>
+            </Svg>
+          </View>
+        </TouchableOpacity>
+      )}
+
+    </View>
   );
 };
 

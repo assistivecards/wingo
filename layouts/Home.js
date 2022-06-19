@@ -13,14 +13,8 @@ import { sortByKey } from '../utils/common';
 const Home = ({ navigation }) => {
   const [activities, setActivities] = useState(undefined);
   const [loading, setLoading] = useState(false);
-  const { tasks, day, dayDate, setTasks } = useAppContext();
-
-  useEffect(() => {
-    console.log('day:', day);
-  }, [day]);
-  useEffect(() => {
-    console.log('dayDate:', dayDate);
-  }, [dayDate]);
+  const { tasks, dayDate, setTasks } = useAppContext();
+  const { isEditing, setIsEditing } = useAppContext();
 
   const _refreshHandler = () => {
     console.log("refreshed");
@@ -105,6 +99,10 @@ const Home = ({ navigation }) => {
   const allCount = tasksToReturn && tasksToReturn.length;
   const completedCount = tasksToReturn && tasksToReturn.filter(task => task.completed).length;
 
+  const handleEditPress = () => {
+    setIsEditing(!isEditing);
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
       <SafeAreaView style={{ backgroundColor: API.config.backgroundColor }}></SafeAreaView>
@@ -123,6 +121,7 @@ const Home = ({ navigation }) => {
         <SafeAreaView>
           <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
             <Text style={[API.styles.h1, { color: "white", marginBottom: 20, marginTop: 20 }]}>{API.t("hello_you", API.user.name)}</Text>
+
             <View style={{ flexDirection: "column", justifyContent: "flex-start", alignItems: "flex-end" }}>
               <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", flex: 1 }}>
                 <TouchableOpacity style={styles.avatarHolder} onPress={() => navigation.navigate("Settings")}>
@@ -141,8 +140,11 @@ const Home = ({ navigation }) => {
               </View>
             </View>
           </View>
-        </SafeAreaView>
 
+          <TouchableOpacity onPress={handleEditPress}>
+            <Text style={[API.styles.sub, { marginHorizontal: 30, marginBottom: 15, color: "#fff", fontWeight: "normal" }]}>{!isEditing ? API.t("edit_list") : API.t("complete_editing")}</Text>
+          </TouchableOpacity>
+        </SafeAreaView>
 
         <SafeAreaView>
           <View style={styles.dayMenu}>
@@ -161,7 +163,12 @@ const Home = ({ navigation }) => {
                   paddingHorizontal: API.config.globalPadding,
                 }}>
                 {tasksToReturn && tasksToReturn.length > 0 && sortByKey(tasksToReturn, 'added').map((task, index) => (
-                  <TaskItem key={index} data={task} onCompletePress={() => handleCompletePress(task.activity && task.activity.slug)} />
+                  <TaskItem
+                    key={index}
+                    data={task}
+                    onCompletePress={() => handleCompletePress(task.activity && task.activity.slug)}
+                    showEditing
+                  />
                 ))}
                 {(!tasksToReturn || (tasksToReturn && tasksToReturn.length < 1)) && (
                   <Text
