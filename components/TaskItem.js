@@ -5,7 +5,12 @@ import TouchableScale from 'touchable-scale-btk';
 import ActivityItem from './ActivityItem';
 import API from '../api';
 
-const TaskItem = ({ data, onCompletePress, showEditing }) => {
+const TaskItem = ({
+  data,
+  onCompletePress,
+  onRemoveItem,
+  showEditing
+}) => {
   const { activity, completed } = data;
 
   return (
@@ -62,7 +67,11 @@ const TaskItem = ({ data, onCompletePress, showEditing }) => {
           paddingLeft: 5,
           marginBottom: 10,
         }}>
-        <ActivityItem data={activity} showEditing={showEditing} />
+        <ActivityItem
+          data={activity}
+          showEditing={showEditing}
+          onRemoveItem={onRemoveItem}
+        />
       </View>
     </View>
   );

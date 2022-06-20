@@ -6,7 +6,14 @@ import { Image as CachedImage } from "react-native-expo-image-cache";
 import { useAppContext } from '../hooks'
 import API from '../api'
 
-const ActivityItem = ({ data, selected, onPress, speakOnPress = true, showEditing = false }) => {
+const ActivityItem = ({
+  data,
+  selected,
+  onPress,
+  onRemoveItem,
+  speakOnPress = true,
+  showEditing = false
+}) => {
   const { isEditing } = useAppContext();
 
   const imageUrl = `${API.assetEndpoint}activities/assets/${data.slug}.png?v=${API.version}`;
@@ -73,7 +80,7 @@ const ActivityItem = ({ data, selected, onPress, speakOnPress = true, showEditin
       </TouchableScale>
 
       {(showEditing && isEditing) && (
-        <TouchableOpacity style={{ zIndex: 100 }} onPress={() => console.log('delete')}>
+        <TouchableOpacity style={{ zIndex: 100 }} onPress={() => onRemoveItem && onRemoveItem(data.slug)}>
           <View
             style={{
               position: 'absolute',

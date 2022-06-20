@@ -75,28 +75,36 @@ const Home = ({ navigation }) => {
     };
   }, []);
 
+  const handleEditPress = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const handleRemoveItem = (slug) => {
+    setTasks({
+      ...tasks,
+      [dayDate]: {
+        ...tasks[dayDate],
+        [slug]: undefined,
+      }
+    });
+  };
+
   const handleCompletePress = (slug) => {
-    setTasks(
-      {
-        ...tasks,
-        [dayDate]: {
-          ...tasks[dayDate],
-          [slug]: {
-            ...tasks[dayDate][slug],
-            completed: tasks[dayDate][slug]['completed'] ? null : DateUtil.now(),
-          }
+    setTasks({
+      ...tasks,
+      [dayDate]: {
+        ...tasks[dayDate],
+        [slug]: {
+          ...tasks[dayDate][slug],
+          completed: tasks[dayDate][slug]['completed'] ? null : DateUtil.now(),
         }
       }
-    );
+    });
   };
 
   // TODO: Memoize or populate/update through global state on each action
   const allCount = displayData && displayData.length;
   const completedCount = displayData && displayData.filter(task => task.completed).length;
-
-  const handleEditPress = () => {
-    setIsEditing(!isEditing);
-  };
 
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -162,6 +170,7 @@ const Home = ({ navigation }) => {
                     key={index}
                     data={task}
                     onCompletePress={() => handleCompletePress(task.activity && task.activity.slug)}
+                    onRemoveItem={handleRemoveItem}
                     showEditing
                   />
                 ))}
