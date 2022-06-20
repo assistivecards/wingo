@@ -7,14 +7,19 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Loading, DayMenu, TaskItem, ProgressBar } from '../components';
 import { useAppContext } from '../hooks';
 import { StoreUtil, DateUtil } from '../utils';
+import { sortByKey, getFormattedTasks } from '../utils/common';
 import API from '../api';
-import { sortByKey } from '../utils/common';
 
 const Home = ({ navigation }) => {
   const [activities, setActivities] = useState(undefined);
   const [loading, setLoading] = useState(false);
+  const [displayData, setDisplayData] = useState(undefined);
   const { tasks, dayDate, setTasks } = useAppContext();
   const { isEditing, setIsEditing } = useAppContext();
+
+  useEffect(() => {
+    setDisplayData(getFormattedTasks({ tasks, activities, dayDate }));
+  }, [tasks, activities, dayDate])
 
   const _refreshHandler = () => {
     console.log("refreshed");
@@ -70,16 +75,6 @@ const Home = ({ navigation }) => {
     };
   }, []);
 
-  const tasksToReturn = tasks && activities && activities.filter(activity => tasks[dayDate] && tasks[dayDate][activity.slug]).map(
-    activity => {
-      return {
-        activity: activity,
-        completed: tasks[dayDate][activity.slug]['completed'],
-        added: tasks[dayDate][activity.slug]['added'],
-      };
-    },
-  );
-
   const handleCompletePress = (slug) => {
     setTasks(
       {
@@ -96,8 +91,8 @@ const Home = ({ navigation }) => {
   };
 
   // TODO: Memoize or populate/update through global state on each action
-  const allCount = tasksToReturn && tasksToReturn.length;
-  const completedCount = tasksToReturn && tasksToReturn.filter(task => task.completed).length;
+  const allCount = displayData && displayData.length;
+  const completedCount = displayData && displayData.filter(task => task.completed).length;
 
   const handleEditPress = () => {
     setIsEditing(!isEditing);
@@ -153,7 +148,7 @@ const Home = ({ navigation }) => {
         </SafeAreaView>
 
         <View style={styles.content}>
-          <View>{(!activities || loading) && <Loading />}</View>
+          <View>{(!activities || loading || !displayData) && <Loading />}</View>
           {activities && (
             <>
               {allCount > 0 && <ProgressBar completedCount={completedCount} allCount={allCount} />}
@@ -162,7 +157,7 @@ const Home = ({ navigation }) => {
                 style={{
                   paddingHorizontal: API.config.globalPadding,
                 }}>
-                {tasksToReturn && tasksToReturn.length > 0 && sortByKey(tasksToReturn, 'added').map((task, index) => (
+                {displayData && displayData.length > 0 && sortByKey(displayData, 'added').map((task, index) => (
                   <TaskItem
                     key={index}
                     data={task}
@@ -170,7 +165,7 @@ const Home = ({ navigation }) => {
                     showEditing
                   />
                 ))}
-                {(!tasksToReturn || (tasksToReturn && tasksToReturn.length < 1)) && (
+                {(!displayData || (displayData && displayData.length < 1)) && (
                   <Text
                     style={[API.styles.p, {
                       textAlign: 'center',
