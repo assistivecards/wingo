@@ -47,7 +47,7 @@ export const AppProvider = ({ children }) => {
       try {
         setTimeout(async () => {
           await StoreUtil.setItem('@tasks', tasks);
-        }, 100);
+        }, 200);
       } catch (error) {
         console.log('error while persisting the tasks', error);
       }
