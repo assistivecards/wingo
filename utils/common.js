@@ -16,6 +16,7 @@ export const getFormattedTasks = ({ tasks, activities, dayDate }) => {
         activity: activity,
         completed: tasks[dayDate][activity.slug]['completed'],
         added: tasks[dayDate][activity.slug]['added'],
+        pos: tasks[dayDate][activity.slug]['pos'],
       };
     },
   );

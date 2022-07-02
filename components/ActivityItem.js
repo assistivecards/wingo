@@ -12,9 +12,13 @@ const ActivityItem = ({
   onPress,
   onRemoveItem,
   speakOnPress = true,
-  showEditing = false
+  showEditing = true,
+  drag,
+  isActive,
 }) => {
-  const { isEditing } = useAppContext();
+  // const { isEditing } = useAppContext();
+
+  const isEditing = true;
 
   const imageUrl = `${API.assetEndpoint}activities/assets/${data.slug}.png?v=${API.version}`;
 
@@ -34,7 +38,16 @@ const ActivityItem = ({
   return (
     <View style={{ flexDirection: 'row' }}>
       {(showEditing && isEditing) && (
-        <TouchableOpacity style={{ zIndex: 100 }} onPress={() => console.log('reorder')}>
+        <TouchableOpacity
+          style={{
+            transform: [{
+              scale: isActive ? 1.2 : 1
+            }],
+            zIndex: 100
+          }}
+          activeOpacity={0.9}
+          onLongPress={() => { API.haptics("impact"); drag(); }}
+        >
           <View
             style={{
               position: 'absolute',
@@ -54,9 +67,9 @@ const ActivityItem = ({
         <View
           style={[
             styles.item, {
-              backgroundColor: 'rgba(99, 110, 182, 0.05)',
+              backgroundColor: '#636eb60D',
               borderColor: !selected ? API.config.panelColor : API.config.backgroundColor,
-              borderWidth: 3,
+              borderWidth: isActive ? 0 : 3,
               padding: 10,
             }]}>
           <CachedImage
@@ -115,7 +128,7 @@ const styles = StyleSheet.create({
   },
   searchItemEmoji: {
     fontSize: 25, margin: 10
-  }
+  },
 });
 
 export default ActivityItem;

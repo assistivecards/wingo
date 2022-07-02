@@ -9,7 +9,9 @@ const TaskItem = ({
   data,
   onCompletePress,
   onRemoveItem,
-  showEditing
+  showEditing,
+  drag,
+  isActive,
 }) => {
   const { activity, completed } = data;
 
@@ -66,11 +68,16 @@ const TaskItem = ({
           width: '85%',
           paddingLeft: 5,
           marginBottom: 10,
+          transform: [{
+            scale: isActive ? 1.05 : 1
+          }],
         }}>
         <ActivityItem
           data={activity}
           showEditing={showEditing}
           onRemoveItem={onRemoveItem}
+          drag={drag}
+          isActive={isActive}
         />
       </View>
     </View>
