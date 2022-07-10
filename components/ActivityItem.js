@@ -12,13 +12,11 @@ const ActivityItem = ({
   onPress,
   onRemoveItem,
   speakOnPress = true,
-  showEditing = true,
+  showEditing,
   drag,
   isActive,
 }) => {
-  // const { isEditing } = useAppContext();
-
-  const isEditing = true;
+  const { isEditing } = useAppContext();
 
   const imageUrl = `${API.assetEndpoint}activities/assets/${data.slug}.png?v=${API.version}`;
 

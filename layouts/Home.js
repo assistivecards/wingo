@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import DraggableFlatList from "react-native-draggable-flatlist";
 import Svg, { Line, Path } from 'react-native-svg';
 import TouchableScale from 'touchable-scale-btk';
@@ -17,6 +17,9 @@ const Home = ({ navigation }) => {
   const [displayData, setDisplayData] = useState(undefined);
   const { tasks, dayDate, setTasks } = useAppContext();
   const { isEditing, setIsEditing } = useAppContext();
+
+  const scrollView = useRef(null);
+  const [outerScrollEnabled, setOuterScrollEnabled] = useState(true);
 
   useEffect(() => {
     if (tasks && activities) {
@@ -144,6 +147,8 @@ const Home = ({ navigation }) => {
     }, 200)
 
     API.haptics("touch");
+
+    setOuterScrollEnabled(true);
   };
 
   return (
@@ -152,7 +157,9 @@ const Home = ({ navigation }) => {
 
       <StatusBar backgroundColor={API.config.backgroundColor} barStyle={"light-content"} />
 
-      {/* <ScrollView
+      <ScrollView
+        ref={scrollView}
+        scrollEnabled={outerScrollEnabled}
         stickyHeaderIndices={[1]}
         contentInsetAdjustmentBehavior="automatic"
         keyboardShouldPersistTaps="handled"
@@ -205,15 +212,19 @@ const Home = ({ navigation }) => {
                 style={{
                   paddingHorizontal: API.config.globalPadding,
                 }}>
-                {displayData && displayData.length > 0 && sortByKey(displayData, 'added').map((task, index) => (
-                  <TaskItem
-                    key={index}
-                    data={task}
-                    onCompletePress={() => handleCompletePress(task.activity && task.activity.slug)}
-                    onRemoveItem={handleRemoveItem}
-                    showEditing
+
+                {displayData && displayData.length > 0 && (
+                  <DraggableFlatList
+                    data={displayData}
+                    renderItem={renderTaskItem}
+                    keyExtractor={(item, index) => `draggable-item-${item.slug}-${index}`}
+                    onDragBegin={() => setOuterScrollEnabled(false)}
+                    onDragEnd={handleDragEnd}
+                    simultaneousHandlers={scrollView}
+                    activationDistance={20}
                   />
-                ))}
+                )}
+
                 {(!displayData || (displayData && displayData.length < 1)) && (
                   <Text
                     style={[API.styles.p, {
@@ -229,19 +240,7 @@ const Home = ({ navigation }) => {
         </View>
 
         <View style={API.styles.iosBottomPadder}></View>
-      </ScrollView> */}
-
-      <View style={{ padding: 20 }}>
-        {displayData && displayData.length > 0 && (
-          <DraggableFlatList
-            data={displayData}
-            style={{ width: "100%" }}
-            renderItem={renderTaskItem}
-            keyExtractor={(item, index) => `draggable-item-${item.slug}-${index}`}
-            onDragEnd={handleDragEnd}
-          />
-        )}
-      </View>
+      </ScrollView>
 
       <LinearGradient colors={[API.config.transparentPanelColor, API.config.panelColor, API.config.panelColor]} style={{
         padding: 30,
