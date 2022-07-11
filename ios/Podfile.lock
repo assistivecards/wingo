@@ -565,7 +565,7 @@ SPEC CHECKSUMS:
   EXScreenOrientation: ca9375ec57e5706128062867516da0b03a97ef64
   EXSplashScreen: 21669e598804ee810547dbb6692c8deb5dd8dbf3
   FBLazyVector: c71c5917ec0ad2de41d5d06a5855f6d5eda06971
-  FBReactNativeSpec: 12792a4212a5907a76f8fb0d7707a0e488e844ac
+  FBReactNativeSpec: c2afc9834dc126db1b8e68cee76de55e9886e542
   glog: 73c2498ac6884b13ede40eda8228cb1eee9d9d62
   RCT-Folly: ec7a233ccc97cc556cf7237f0db1ff65b986f27c
   RCTRequired: d34bf57e17cb6e3b2681f4809b13843c021feb6c
