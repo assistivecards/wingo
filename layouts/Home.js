@@ -174,10 +174,6 @@ const Home = ({ navigation }) => {
             </View>
           </View>
         </View>
-
-        <TouchableOpacity onPress={handleEditPress}>
-          <Text style={[API.styles.sub, { marginHorizontal: 30, marginBottom: 15, color: "#fff", fontWeight: "normal" }]}>{!isEditing ? API.t("edit_list") : API.t("complete_editing")}</Text>
-        </TouchableOpacity>
       </SafeAreaView>
 
       <View style={styles.content}>
@@ -228,10 +224,46 @@ const Home = ({ navigation }) => {
         width: "100%",
         height: 90,
       }}>
+
+
         <TouchableScale
           style={{
             position: "absolute",
             bottom: 40,
+            left: 40,
+            backgroundColor: API.config.backgroundColor,
+            borderRadius: 25,
+            width: 50,
+            height: 50,
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+          onPress={handleEditPress}>
+          {!isEditing && <Svg
+            width={24}
+            height={24}
+            stroke={API.config.panelColor}
+            strokeWidth={3}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            viewBox="0 0 218 218">
+            <Path fill={API.config.panelColor} d="M215.658,53.55L164.305,2.196C162.899,0.79,160.991,0,159.002,0c-1.989,0-3.897,0.79-5.303,2.196L3.809,152.086
+	c-1.35,1.352-2.135,3.166-2.193,5.075l-1.611,52.966c-0.063,2.067,0.731,4.069,2.193,5.532c1.409,1.408,3.317,2.196,5.303,2.196
+	c0.076,0,0.152-0.001,0.229-0.004l52.964-1.613c1.909-0.058,3.724-0.842,5.075-2.192l149.89-149.889
+	C218.587,61.228,218.587,56.479,215.658,53.55z M57.264,201.336l-42.024,1.28l1.279-42.026l91.124-91.125l40.75,40.743
+	L57.264,201.336z M159,99.602l-40.751-40.742l40.752-40.753l40.746,40.747L159,99.602z" />
+          </Svg>}
+
+          {isEditing && <Svg viewBox="0 0 24 24" width={32} height={32}>
+            <Path fill={API.config.panelColor} d="M9 16.2l-3.5-3.5c-.39-.39-1.01-.39-1.4 0-.39.39-.39 1.01 0 1.4l4.19 4.19c.39.39 1.02.39 1.41 0L20.3 7.7c.39-.39.39-1.01 0-1.4-.39-.39-1.01-.39-1.4 0L9 16.2z"></Path>
+          </Svg>}
+        </TouchableScale>
+
+        <TouchableScale
+          style={{
+            position: "absolute",
+            bottom: 40,
+            right: 40,
             backgroundColor: API.config.backgroundColor,
             borderRadius: 25,
             width: 50,
