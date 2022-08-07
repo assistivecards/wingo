@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import DraggableFlatList from "react-native-draggable-flatlist";
 import Svg, { Line, Path } from 'react-native-svg';
 import TouchableScale from 'touchable-scale-btk';
@@ -17,9 +17,6 @@ const Home = ({ navigation }) => {
   const [displayData, setDisplayData] = useState(undefined);
   const { tasks, dayDate, setTasks } = useAppContext();
   const { isEditing, setIsEditing } = useAppContext();
-
-  const scrollView = useRef(null);
-  const [outerScrollEnabled, setOuterScrollEnabled] = useState(true);
 
   useEffect(() => {
     if (tasks && activities) {
@@ -147,8 +144,6 @@ const Home = ({ navigation }) => {
     }, 200)
 
     API.haptics("touch");
-
-    setOuterScrollEnabled(true);
   };
 
   return (
@@ -157,90 +152,76 @@ const Home = ({ navigation }) => {
 
       <StatusBar backgroundColor={API.config.backgroundColor} barStyle={"light-content"} />
 
-      <ScrollView
-        ref={scrollView}
-        scrollEnabled={outerScrollEnabled}
-        stickyHeaderIndices={[1]}
-        contentInsetAdjustmentBehavior="automatic"
-        keyboardShouldPersistTaps="handled"
-        keyboardDismissMode={"on-drag"}
-        style={{ flex: 1, backgroundColor: API.config.backgroundColor }}
-        contentContainerStyle={{ flexGrow: 1 }}
-      >
+      <SafeAreaView style={{ backgroundColor: API.config.backgroundColor }}>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <Text style={[API.styles.h1, { color: "white", marginBottom: 20, marginTop: 20 }]}>{API.t("hello_you", API.user.name)}</Text>
 
-        <SafeAreaView>
-          <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-            <Text style={[API.styles.h1, { color: "white", marginBottom: 20, marginTop: 20 }]}>{API.t("hello_you", API.user.name)}</Text>
-
-            <View style={{ flexDirection: "column", justifyContent: "flex-start", alignItems: "flex-end" }}>
-              <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", flex: 1 }}>
-                <TouchableOpacity style={styles.avatarHolder} onPress={() => navigation.navigate("Settings")}>
-                  <View style={styles.avatar}>
-                    <CachedImage uri={`${API.assetEndpoint}cards/avatar/${API.user.avatar}.png?v=${API.version}`}
-                      style={{ width: 40, height: 40, position: "relative", top: 4 }}
-                      resizeMode={"contain"} />
-                  </View>
-                  <View style={styles.avatarIcon}>
-                    <Svg width={11} height={11} viewBox="0 0 8 4">
-                      <Line x1="1" x2="7" y1="0.8" y2="0.8" fill="none" stroke={API.config.backgroundColor} strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" />
-                      <Line x1="1" x2="7" y1="3.2" y2="3.2" fill="none" stroke={API.config.backgroundColor} strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" />
-                    </Svg>
-                  </View>
-                </TouchableOpacity>
-              </View>
+          <View style={{ flexDirection: "column", justifyContent: "flex-start", alignItems: "flex-end" }}>
+            <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", flex: 1 }}>
+              <TouchableOpacity style={styles.avatarHolder} onPress={() => navigation.navigate("Settings")}>
+                <View style={styles.avatar}>
+                  <CachedImage uri={`${API.assetEndpoint}cards/avatar/${API.user.avatar}.png?v=${API.version}`}
+                    style={{ width: 40, height: 40, position: "relative", top: 4 }}
+                    resizeMode={"contain"} />
+                </View>
+                <View style={styles.avatarIcon}>
+                  <Svg width={11} height={11} viewBox="0 0 8 4">
+                    <Line x1="1" x2="7" y1="0.8" y2="0.8" fill="none" stroke={API.config.backgroundColor} strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" />
+                    <Line x1="1" x2="7" y1="3.2" y2="3.2" fill="none" stroke={API.config.backgroundColor} strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.1" />
+                  </Svg>
+                </View>
+              </TouchableOpacity>
             </View>
           </View>
-
-          <TouchableOpacity onPress={handleEditPress}>
-            <Text style={[API.styles.sub, { marginHorizontal: 30, marginBottom: 15, color: "#fff", fontWeight: "normal" }]}>{!isEditing ? API.t("edit_list") : API.t("complete_editing")}</Text>
-          </TouchableOpacity>
-        </SafeAreaView>
-
-        <SafeAreaView>
-          <View style={styles.dayMenu}>
-            <DayMenu />
-          </View>
-        </SafeAreaView>
-
-        <View style={styles.content}>
-          <View>{(!activities || loading || !displayData) && <Loading />}</View>
-          {activities && (
-            <>
-              {allCount > 0 && <ProgressBar completedCount={completedCount} allCount={allCount} />}
-
-              <View
-                style={{
-                  paddingHorizontal: API.config.globalPadding,
-                }}>
-
-                {displayData && displayData.length > 0 && (
-                  <DraggableFlatList
-                    data={displayData}
-                    renderItem={renderTaskItem}
-                    keyExtractor={(item, index) => `draggable-item-${item.slug}-${index}`}
-                    onDragBegin={() => setOuterScrollEnabled(false)}
-                    onDragEnd={handleDragEnd}
-                    simultaneousHandlers={scrollView}
-                    activationDistance={20}
-                  />
-                )}
-
-                {(!displayData || (displayData && displayData.length < 1)) && (
-                  <Text
-                    style={[API.styles.p, {
-                      textAlign: 'center',
-                      marginTop: 20
-                    }]}>
-                    + {API.t('add_tasks_title')}
-                  </Text>
-                )}
-              </View>
-            </>
-          )}
         </View>
 
-        <View style={API.styles.iosBottomPadder}></View>
-      </ScrollView>
+        <TouchableOpacity onPress={handleEditPress}>
+          <Text style={[API.styles.sub, { marginHorizontal: 30, marginBottom: 15, color: "#fff", fontWeight: "normal" }]}>{!isEditing ? API.t("edit_list") : API.t("complete_editing")}</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
+
+      <View style={styles.content}>
+        <View>{(!activities || loading || !displayData) && <Loading />}</View>
+
+        <View style={styles.dayMenu}>
+          <DayMenu />
+        </View>
+
+        {activities && (
+          <>
+            {allCount > 0 && <ProgressBar completedCount={completedCount} allCount={allCount} />}
+
+            <View
+              style={{
+                paddingHorizontal: API.config.globalPadding,
+              }}>
+
+              {displayData && displayData.length > 0 && (
+                <DraggableFlatList
+                  data={displayData}
+                  renderItem={renderTaskItem}
+                  keyExtractor={(item, index) => `draggable-item-${item.slug}-${index}`}
+                  onDragEnd={handleDragEnd}
+                  activationDistance={20}
+                  contentContainerStyle={{
+                    paddingBottom: 400,
+                  }}
+                />
+              )}
+
+              {(!displayData || (displayData && displayData.length < 1)) && (
+                <Text
+                  style={[API.styles.p, {
+                    textAlign: 'center',
+                    marginTop: 20
+                  }]}>
+                  + {API.t('add_tasks_title')}
+                </Text>
+              )}
+            </View>
+          </>
+        )}
+      </View>
 
       <LinearGradient colors={[API.config.transparentPanelColor, API.config.panelColor, API.config.panelColor]} style={{
         padding: 30,
@@ -373,10 +354,8 @@ const styles = StyleSheet.create({
   },
   dayMenu: {
     backgroundColor: "#fff",
-    position: "relative",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    height: '100%',
     borderBottomColor: '#EAEBEE',
     borderBottomWidth: 1,
     paddingVertical: 3
