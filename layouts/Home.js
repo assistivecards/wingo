@@ -191,34 +191,29 @@ const Home = ({ navigation }) => {
           <>
             {allCount > 0 && <ProgressBar completedCount={completedCount} allCount={allCount} />}
 
-            <View
-              style={{
-                paddingHorizontal: API.config.globalPadding,
-              }}>
+            {displayData && displayData.length > 0 && (
+              <DraggableFlatList
+                data={displayData}
+                renderItem={renderTaskItem}
+                keyExtractor={(item, index) => `draggable-item-${item.slug}-${index}`}
+                onDragEnd={handleDragEnd}
+                activationDistance={20}
+                contentContainerStyle={{
+                  paddingBottom: 400,
+                  paddingHorizontal: API.config.globalPadding
+                }}
+              />
+            )}
 
-              {displayData && displayData.length > 0 && (
-                <DraggableFlatList
-                  data={displayData}
-                  renderItem={renderTaskItem}
-                  keyExtractor={(item, index) => `draggable-item-${item.slug}-${index}`}
-                  onDragEnd={handleDragEnd}
-                  activationDistance={20}
-                  contentContainerStyle={{
-                    paddingBottom: 400,
-                  }}
-                />
-              )}
-
-              {(!displayData || (displayData && displayData.length < 1)) && (
-                <Text
-                  style={[API.styles.p, {
-                    textAlign: 'center',
-                    marginTop: 20
-                  }]}>
-                  + {API.t('add_tasks_title')}
-                </Text>
-              )}
-            </View>
+            {(!displayData || (displayData && displayData.length < 1)) && (
+              <Text
+                style={[API.styles.p, {
+                  textAlign: 'center',
+                  marginTop: 20
+                }]}>
+                + {API.t('add_tasks_title')}
+              </Text>
+            )}
           </>
         )}
       </View>
