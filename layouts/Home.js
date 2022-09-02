@@ -202,13 +202,40 @@ const Home = ({ navigation }) => {
             )}
 
             {(!displayData || (displayData && displayData.length < 1)) && (
-              <Text
-                style={[API.styles.p, {
-                  textAlign: 'center',
-                  marginTop: 20
-                }]}>
-                + {API.t('add_tasks_title')}
-              </Text>
+              <View
+                style={[
+                  styles.item, {
+                    padding: 10,
+                    flex: 1
+                  }]}>
+                <CachedImage
+                  uri={`${API.assetEndpoint}activities/assets/planning-the-day.png?v=${API.version}`}
+                  style={{
+                    width: API.isTablet ? 160 * API.artworkAspectRatio : 140 * API.artworkAspectRatio,
+                    height: API.isTablet ? 160 : 140,
+                    margin: 5,
+                    opacity: 0.7
+                  }}
+                />
+                <Text
+                  style={[API.styles.h2, {
+                    fontSize: 19,
+                    marginLeft: 10,
+                    marginTop: 10,
+                  }]}
+                >
+                  No Tasks Yet
+                </Text>
+                <Text
+                  style={[API.styles.p, {
+                    marginHorizontal: 25,
+                    textAlign: "center",
+                    paddingBottom: 100
+                  }]}
+                >
+                  You haven't added any tasks for this day yet, get started by adding one
+                </Text>
+              </View>
             )}
           </>
         )}
@@ -389,8 +416,21 @@ const styles = StyleSheet.create({
   },
   content: {
     backgroundColor: "#fff",
-    height: '100%',
+    flex: 1,
   },
+  item: {
+    marginVertical: 5,
+    borderRadius: 25,
+    padding: 10,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  searchItemText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "rgba(0,0,0,0.75)",
+    paddingRight: 10
+  }
 });
 
 export default Home;
