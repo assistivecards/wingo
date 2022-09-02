@@ -65,7 +65,7 @@ const ActivityItem = ({
         <View
           style={[
             styles.item, {
-              backgroundColor: '#636eb60D',
+              backgroundColor: '#f7f8fb',
               borderColor: !selected ? API.config.panelColor : API.config.backgroundColor,
               borderWidth: isActive ? 0 : 3,
               padding: 10,
