@@ -26,7 +26,7 @@ const TaskItem = ({
         justifyContent: 'space-between',
         alignItems: 'center',
         width: '100%',
-        opacity: completed ? 0.6 : 1,
+        opacity: (showEditing && isEditing)? 1 : completed ? 0.6 : 1,
       }}
     >
       {!(showEditing && isEditing) &&
