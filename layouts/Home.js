@@ -154,7 +154,7 @@ const Home = ({ navigation }) => {
 
       <SafeAreaView style={{ backgroundColor: API.config.backgroundColor }}>
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <Text style={[API.styles.h1, { color: "white", marginBottom: 20, marginTop: 20 }]}>{API.t("hello_you", API.user.name)}</Text>
+          <Text style={[API.styles.h2, { color: "white", marginBottom: 20, marginTop: 20 }]}>{API.t("hello_you", API.user.name)}</Text>
 
           <View style={{ flexDirection: "column", justifyContent: "flex-start", alignItems: "flex-end" }}>
             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", flex: 1 }}>
