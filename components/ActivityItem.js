@@ -39,7 +39,7 @@ const ActivityItem = ({
         <TouchableOpacity
           style={{
             transform: [{
-              scale: isActive ? 1.2 : 1
+              scale: isActive ? 1.15 : 1
             }],
             zIndex: 100
           }}
@@ -50,9 +50,9 @@ const ActivityItem = ({
             style={{
               position: 'absolute',
               left: 10,
-              top: '45%',
-              height: 32,
-              width: 32,
+              height: "100%",
+              width: 200,
+              justifyContent: "center"
             }}>
             <Svg height={32} width={32} viewBox="0 0 24 24" style={{ opacity: 0.9 }}>
               <Path fill={API.config.backgroundColor} d="M11 18c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zm-2-8c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm6 4c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></Path>
