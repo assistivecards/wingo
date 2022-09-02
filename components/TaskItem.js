@@ -3,6 +3,7 @@ import Svg, { Path } from 'react-native-svg';
 import { View } from 'react-native';
 import TouchableScale from 'touchable-scale-btk';
 import ActivityItem from './ActivityItem';
+import { useAppContext } from '../hooks'
 import API from '../api';
 
 const TaskItem = ({
@@ -15,6 +16,8 @@ const TaskItem = ({
 }) => {
   const { activity, completed } = data;
 
+  const { isEditing } = useAppContext();
+
   return (
     <View
       style={{
@@ -26,17 +29,20 @@ const TaskItem = ({
         opacity: completed ? 0.6 : 1,
       }}
     >
-      <View
-        style={{
-          borderLeftWidth: 3,
-          borderLeftColor: 'rgba(99, 110, 182, 0.15)',
-          height: '100%',
-          position: 'absolute',
-          top: 0,
-          left: 19,
-        }}
-      />
-      <TouchableScale onPress={() => onCompletePress()}>
+      {!(showEditing && isEditing) &&
+        <View
+          style={{
+            borderLeftWidth: 3,
+            borderLeftColor: 'rgba(99, 110, 182, 0.15)',
+            height: '100%',
+            position: 'absolute',
+            top: 0,
+            left: 19,
+          }}
+        />
+      }
+      {!(showEditing && isEditing) &&
+        <TouchableScale onPress={() => onCompletePress()}>
         <View
           style={{
             width: '15%',
@@ -62,10 +68,10 @@ const TaskItem = ({
             </Svg>
           ) : undefined}
         </View>
-      </TouchableScale>
+      </TouchableScale>}
       <View
         style={{
-          width: '85%',
+          width: !(showEditing && isEditing) ? '85%' : '100%',
           paddingLeft: 5,
           marginBottom: 10,
           transform: [{
