@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import DraggableFlatList from "react-native-draggable-flatlist";
 import Svg, { Line, Path } from 'react-native-svg';
 import TouchableScale from 'touchable-scale-btk';
-import { StyleSheet, StatusBar, View, SafeAreaView, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, StatusBar, View, SafeAreaView, Text, TouchableOpacity } from 'react-native';
 import { Image as CachedImage } from "react-native-expo-image-cache";
 import { LinearGradient } from 'expo-linear-gradient';
 import { Loading, DayMenu, TaskItem, ProgressBar } from '../components';
 import { useAppContext } from '../hooks';
+import { sortBy } from 'lodash';
 import { StoreUtil, DateUtil } from '../utils';
-import { sortByKey, getFormattedTasks } from '../utils/common';
+import { getFormattedTasks } from '../utils/common';
 import API from '../api';
 
 const Home = ({ navigation }) => {
@@ -21,7 +22,8 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     if (tasks && activities) {
       const initialTasks = getFormattedTasks({ tasks, activities, dayDate });
-      setDisplayData(sortByKey(initialTasks, 'pos'));
+
+      setDisplayData(sortBy(initialTasks, ['pos', 'added']));
     }
   }, [tasks, activities, dayDate])
 
@@ -53,7 +55,6 @@ const Home = ({ navigation }) => {
           [today]: tasks[today] ? tasks[today] : {},
           [tomorrow]: tasks[tomorrow] ? tasks[tomorrow] : {},
         };
-
         setTasks(initialTasksObj);
       }
     } finally {
