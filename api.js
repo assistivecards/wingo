@@ -547,7 +547,6 @@ class Api {
 				}
 				return a;
 			});
-			console.log(this.activities);
 			return this.activities;
 		}
 	};
