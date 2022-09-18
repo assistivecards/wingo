@@ -539,8 +539,16 @@ class Api {
 					activitiesResponse = JSON.parse(activitiesResponseString);
 				}
 			}
-			this.activities = activitiesResponse;
-			return activitiesResponse;
+			this.activities = activitiesResponse.map((a, i) => {
+				if(i < 30){
+					a.isPremium = false;
+				}else{
+					a.isPremium = true;
+				}
+				return a;
+			});
+			console.log(this.activities);
+			return this.activities;
 		}
 	};
 
