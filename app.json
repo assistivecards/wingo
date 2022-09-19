@@ -5,7 +5,7 @@
   "apiEndpoint": "https://leeloo.dreamoriented.org/",
   "assetEndpoint": "https://api.assistivecards.com/",
   "assetVersion": 215,
-  "planPrefix": "wingoapp_",
+  "planPrefix": "wingo_",
   "config": {
     "language": true,
     "tts": true,
