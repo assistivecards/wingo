@@ -5,6 +5,10 @@ const translate = new Translate();
 
 let languages = require("../languages.json");
 
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 let checkExist = false;
 let content = require("../interface/en.json");
 
@@ -16,7 +20,7 @@ function UITranslation(lang){
   {
     let locale = value.replace("$1", "XXXXX");
     return translate.translate(locale, { from: "en", to: lang }).then(translations => {
-      return Promise.resolve(translations[0].replace("XXXXX", "$1"));
+      return Promise.resolve(capitalizeFirstLetter(translations[0].replace("XXXXX", "$1").replace("XXXX", "$1").replace("XXX", "$1").replace("XX", "$1")));
     }).catch((err) => {
       console.log("$$$$"+lang, err);
     });
