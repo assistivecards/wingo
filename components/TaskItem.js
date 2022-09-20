@@ -13,6 +13,8 @@ const TaskItem = ({
   showEditing,
   drag,
   isActive,
+  isFirst,
+  isLast
 }) => {
   const { activity, completed } = data;
 
@@ -34,9 +36,9 @@ const TaskItem = ({
           style={{
             borderLeftWidth: 3,
             borderLeftColor: 'rgba(99, 110, 182, 0.15)',
-            height: '100%',
+            height: (isFirst || isLast) ? '500%' : '100%',
             position: 'absolute',
-            top: 0,
+            top: isFirst ? "-400%" : 0,
             left: 19,
           }}
         />

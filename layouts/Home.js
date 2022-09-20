@@ -111,7 +111,8 @@ const Home = ({ navigation }) => {
   const allCount = displayData && displayData.length;
   const completedCount = displayData && displayData.filter(task => task.completed).length;
 
-  const renderTaskItem = ({ item: task, drag, isActive }) => {
+  const renderTaskItem = ({ item: task, drag, isActive, index }) => {
+    console.log(task);
     return (
       <TaskItem
         data={task}
@@ -120,6 +121,8 @@ const Home = ({ navigation }) => {
         showEditing
         drag={drag}
         isActive={isActive}
+        isFirst={index == 0}
+        isLast={(index + 1) == allCount}
       />
     );
   };
@@ -258,7 +261,7 @@ const Home = ({ navigation }) => {
           style={{
             position: "absolute",
             bottom: 40,
-            left: 40,
+            left: 30,
             backgroundColor: API.config.backgroundColor,
             borderRadius: 25,
             width: 50,
@@ -291,7 +294,7 @@ const Home = ({ navigation }) => {
           style={{
             position: "absolute",
             bottom: 40,
-            right: 40,
+            right: 30,
             backgroundColor: API.config.backgroundColor,
             borderRadius: 25,
             width: 50,
