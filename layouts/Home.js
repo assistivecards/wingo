@@ -228,7 +228,7 @@ const Home = ({ navigation }) => {
                     marginTop: 10,
                   }]}
                 >
-                  No Tasks Yet
+                  {API.t("no_tasks_yet")}
                 </Text>
                 <Text
                   style={[API.styles.p, {
@@ -237,7 +237,7 @@ const Home = ({ navigation }) => {
                     paddingBottom: 100
                   }]}
                 >
-                  You haven't added any tasks for this day yet, get started by adding one
+                  {API.t("no_tasks_yet_desc")}
                 </Text>
               </View>
             )}

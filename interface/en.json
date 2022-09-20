@@ -189,6 +189,9 @@
 	"today_add": "Add Today Activities",
 	"tomorrow_add": "Add Tomorrow Activities",
 
+	"no_tasks_yet": "No Tasks Yet",
+	"no_tasks_yet_desc": "You haven't added any tasks for this day yet, get started by adding one",
+
 	"add_tasks_title": "Add some tasks",
 	"edit_list": "Edit your list",
 	"complete_editing": "Complete editing"

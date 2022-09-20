@@ -629,7 +629,7 @@ class Api {
 		if(typeof variableArray == "string" || typeof variableArray == "number"){
 			let text = uitext[lang + "_json"][UITextIdentifier];
 			if(text) return text.replace("$1", variableArray);
-			return "UnSupportedIdentifier";
+			return "UI:"+UITextIdentifier;
 		}else if(typeof variableArray == "array"){
 			let text = uitext[lang + "_json"][UITextIdentifier];
 			if(text){
@@ -639,13 +639,13 @@ class Api {
 				});
 				return text;
 			}else{
-				return "UnSupportedIdentifier";
+				return "UI:"+UITextIdentifier;
 			}
 
 		}else{
 			let text = uitext[lang + "_json"][UITextIdentifier];
 			if(text) return text;
-			return "UnSupportedIdentifier";
+			return "UI:"+UITextIdentifier;
 		}
 	}
 
