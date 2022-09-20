@@ -185,6 +185,10 @@
 	"today": "Today",
 	"tomorrow": "Tomorrow",
 
+	"yesterday_add": "Add Yesterday Activities",
+	"today_add": "Add Today Activities",
+	"tomorrow_add": "Add Tomorrow Activities",
+
 	"add_tasks_title": "Add some tasks",
 	"edit_list": "Edit your list",
 	"complete_editing": "Complete editing"

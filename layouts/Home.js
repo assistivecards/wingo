@@ -64,7 +64,7 @@ const Home = ({ navigation }) => {
 
   useEffect(() => {
     API.hit("Home");
-    if (API.user.greeding) {
+    if (API.user.greeding == 1) {
       API.speak(API.t("hello_you", API.user.name));
     }
 
