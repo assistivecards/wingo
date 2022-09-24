@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import DraggableFlatList from "react-native-draggable-flatlist";
 import Svg, { Line, Path } from 'react-native-svg';
 import TouchableScale from 'touchable-scale-btk';
@@ -18,6 +18,8 @@ const Home = ({ navigation }) => {
   const [displayData, setDisplayData] = useState(undefined);
   const { tasks, dayDate, setTasks } = useAppContext();
   const { isEditing, setIsEditing } = useAppContext();
+
+  const flatListRef = useRef();
 
   useEffect(() => {
     if (tasks && activities) {
@@ -150,6 +152,14 @@ const Home = ({ navigation }) => {
     API.haptics("touch");
   };
 
+  useEffect(() => {
+    if (completedCount === allCount) {
+      if (flatListRef && flatListRef.current) {
+        flatListRef.current.scrollToOffset({ animated: true, offset: 0 });
+      }
+    }
+  }, [completedCount, allCount]);
+
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
       <SafeAreaView style={{ backgroundColor: API.config.backgroundColor }}></SafeAreaView>
@@ -189,11 +199,12 @@ const Home = ({ navigation }) => {
 
         {activities && (
           <>
-            {allCount > 0 && <ProgressBar completedCount={completedCount} allCount={allCount} />}
-
             {displayData && displayData.length > 0 && (
               <DraggableFlatList
+                ref={flatListRef}
                 data={displayData}
+                ListHeaderComponent={allCount > 0 && <ProgressBar completedCount={completedCount} allCount={allCount} />}
+                ListHeaderComponentStyle={{ marginHorizontal: -20 }}
                 renderItem={renderTaskItem}
                 keyExtractor={(item, index) => `draggable-item-${item.slug}-${index}`}
                 onDragEnd={handleDragEnd}

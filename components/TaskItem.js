@@ -38,8 +38,9 @@ const TaskItem = ({
             borderLeftColor: 'rgba(99, 110, 182, 0.15)',
             height: (isFirst || isLast) ? '500%' : '100%',
             position: 'absolute',
-            top: isFirst ? "-400%" : 0,
+            top: isFirst ? "-5%" : 0,
             left: 19,
+            zIndex: 0,
           }}
         />
       }

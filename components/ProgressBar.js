@@ -110,7 +110,7 @@ const ProgressBar = ({ completedCount, allCount }) => {
         <TouchableScale style={{ width: '100%', marginBottom: 10 }} onPress={handleCongratsPress}>
           <View style={{
             marginTop: 10,
-            paddingVertical: 7,
+            paddingVertical: 2,
             borderRadius: 10,
             backgroundColor: API.config.successBgColor,
             marginHorizontal: API.config.globalPadding,
