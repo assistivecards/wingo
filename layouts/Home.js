@@ -16,8 +16,7 @@ const Home = ({ navigation }) => {
   const [activities, setActivities] = useState(undefined);
   const [loading, setLoading] = useState(false);
   const [displayData, setDisplayData] = useState(undefined);
-  const { tasks, dayDate, setTasks } = useAppContext();
-  const { isEditing, setIsEditing } = useAppContext();
+  const { tasks, dayDate, setTasks, isEditing, setIsEditing } = useAppContext();
 
   const flatListRef = useRef();
 

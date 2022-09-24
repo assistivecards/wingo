@@ -2,10 +2,13 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import TouchableScale from 'touchable-scale-btk';
 import API from '../api';
+import { useAppContext } from '../hooks';
 
 const ProgressBar = ({ completedCount, allCount }) => {
   const successMessage = API.t("congrats_title");
   const successDescription = API.t("congrats_description");
+  const { isEditing } = useAppContext();
+
 
   const speak = (text, speed) => {
     API.haptics("touch");
@@ -106,7 +109,7 @@ const ProgressBar = ({ completedCount, allCount }) => {
 
   return (
     <>
-      {completedCount === allCount && (
+      {(completedCount === allCount) && !isEditing  && (
         <TouchableScale style={{ width: '100%', marginBottom: 10 }} onPress={handleCongratsPress}>
           <View style={{
             marginTop: 10,
