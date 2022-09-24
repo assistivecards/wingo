@@ -29,7 +29,7 @@ const DayMenu = () => {
   }
 
   return (
-    <View style={{ paddingVertical: 10, paddingHorizontal: API.config.globalPadding }}>
+    <View style={{ paddingVertical: 10 }}>
       <HorizontalPicker
         data={Object.values(DAY)}
         renderItem={renderItem}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import API from '../api';
+import { ResponsiveUtil } from '../utils';
 
 const DayItem = ({ day, selected }) => {
   return (
@@ -9,7 +10,8 @@ const DayItem = ({ day, selected }) => {
         backgroundColor: !selected ? API.config.panelColor : API.config.backgroundColor,
         paddingHorizontal: 20,
         paddingVertical: 8,
-        borderRadius: 50
+        borderRadius: 50,
+        width: ResponsiveUtil.wp(30),
       }}
     >
       <Text
@@ -18,6 +20,7 @@ const DayItem = ({ day, selected }) => {
           fontWeight: "bold",
           color: !selected ? API.config.backgroundColor : API.config.panelColor,
           opacity: !selected ? 0.4 : 1,
+          textAlign: 'center',
         }}>
         {API.t(day)}
       </Text>
