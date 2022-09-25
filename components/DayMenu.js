@@ -1,11 +1,13 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { DAY } from '../constants';
 import { useAppContext } from '../hooks';
 import DayItem from './DayItem';
 import API from '../api';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+
+import LeftArrow from './icons/LeftArrow';
+import RightArrow from './icons/RightArrow';
 
 const DayMenu = () => {
   const { day, setDay } = useAppContext();
@@ -33,7 +35,9 @@ const DayMenu = () => {
       <View style={styles.arrowContainer}>
         {day !== DAY.yesterday && (
           <TouchableOpacity onPress={onPrevPress}>
-            <Text>Prev</Text>
+            <View style={styles.arrow}>
+              <LeftArrow color={API.config.backgroundColor} />
+            </View>
           </TouchableOpacity>
         )}
       </View>
@@ -45,7 +49,9 @@ const DayMenu = () => {
       <View style={styles.arrowContainer}>
         {day !== DAY.tomorrow && (
           <TouchableOpacity onPress={onNextPress}>
-            <Text>Next</Text>
+            <View style={styles.arrow}>
+              <RightArrow color={API.config.backgroundColor} />
+            </View>
           </TouchableOpacity>
         )}
       </View>
@@ -66,7 +72,13 @@ const styles = StyleSheet.create({
     width: '10%',
     height: 35,
     justifyContent: 'center',
-  }
+  },
+  arrow: {
+    height: '100%',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
 });
 
 export default DayMenu;
