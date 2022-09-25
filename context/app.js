@@ -43,7 +43,6 @@ export const AppProvider = ({ children }) => {
 
   useEffect(() => {
     if (tasks) {
-      console.log("tasks", JSON.stringify(tasks, null, 2));
       try {
         setTimeout(async () => {
           await StoreUtil.setItem('@tasks', tasks);

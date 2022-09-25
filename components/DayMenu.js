@@ -1,43 +1,72 @@
-import React, { useState } from 'react';
-import HorizontalPicker from '@vseslav/react-native-horizontal-picker';
-import { View } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+
 import { DAY } from '../constants';
 import { useAppContext } from '../hooks';
-import { ResponsiveUtil } from '../utils';
 import DayItem from './DayItem';
 import API from '../api';
-
-const INITIAL_DAY_INDEX = 1;
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const DayMenu = () => {
-  const { setDay } = useAppContext();
-  const [dayIndex, setDayIndex] = useState(INITIAL_DAY_INDEX)
+  const { day, setDay } = useAppContext();
 
-  const renderItem = (item, index) => {
-    return (
-      <DayItem
-        key={index}
-        day={item}
-        selected={index === dayIndex}
-      />
-    )
+  const onPrevPress = () => {
+    if (day === DAY.today) {
+      setDay(DAY.yesterday)
+    }
+    if (day === DAY.tomorrow) {
+      setDay(DAY.today)
+    }
   };
 
-  const handleChange = (index) => {
-    setDayIndex(index);
-    setDay(Object.values(DAY)[index]);
+  const onNextPress = () => {
+    if (day === DAY.yesterday) {
+      setDay(DAY.today)
+    }
+    if (day === DAY.today) {
+      setDay(DAY.tomorrow)
+    }
   }
 
   return (
-    <View style={{ paddingVertical: 10 }}>
-      <HorizontalPicker
-        data={Object.values(DAY)}
-        renderItem={renderItem}
-        itemWidth={ResponsiveUtil.wp(30)}
-        defaultIndex={INITIAL_DAY_INDEX}
-        onChange={handleChange}
+    <View style={styles.root}>
+      <View style={styles.arrowContainer}>
+        {day !== DAY.yesterday && (
+          <TouchableOpacity onPress={onPrevPress}>
+            <Text>Prev</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+      <DayItem
+        onPress={() => setDay(day)}
+        day={day}
+        selected={true}
       />
+      <View style={styles.arrowContainer}>
+        {day !== DAY.tomorrow && (
+          <TouchableOpacity onPress={onNextPress}>
+            <Text>Next</Text>
+          </TouchableOpacity>
+        )}
+      </View>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  root: {
+    paddingVertical: 10,
+    marginHorizontal: API.config.globalPadding,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  arrowContainer: {
+    width: '10%',
+    height: 35,
+    justifyContent: 'center',
+  }
+});
+
 export default DayMenu;

@@ -113,7 +113,6 @@ const Home = ({ navigation }) => {
   const completedCount = displayData && displayData.filter(task => task.completed).length;
 
   const renderTaskItem = ({ item: task, drag, isActive, index }) => {
-    console.log(task);
     return (
       <TaskItem
         data={task}
