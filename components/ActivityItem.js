@@ -83,6 +83,7 @@ const ActivityItem = ({
               fontSize: 19,
               marginLeft: 10,
               marginTop: 10,
+              textAlign: "center"
             }]}
           >
             {data.title}
