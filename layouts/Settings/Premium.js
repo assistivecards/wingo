@@ -28,7 +28,7 @@ export default class Setting extends React.Component {
     API.event.on("premium", this._listenPremiumChange.bind(this))
     API.event.on("premiumPurchase", this._listenPremiumPurchase.bind(this))
     let cards = await API.getActivities();
-    this.setState({cards: cards.filter(res => res.premium == 1)});
+    this.setState({cards: cards.filter(res => res.isPremium == 1)});
     API.hit("Premium");
     API.avent("Premium", "Page", "load");
   }
@@ -174,11 +174,9 @@ export default class Setting extends React.Component {
                 <View style={{width: 25}}></View>
                 {this.state.cards.map((pack, i) => {
                   return (
-                    <View key={i} style={[styles.card, {backgroundColor: pack.color}]}>
-                      <CachedImage uri={`${API.assetEndpoint}cards/icon/${pack.slug}.png?v=${API.version}`} style={{width: 50, height: 50, margin: 5}}/>
-                      <Text style={{fontWeight: "500", color: "rgba(0,0,0,0.8)", paddingVertical: 3}}>{pack.locale}</Text>
-                      <Text style={{fontSize: 12, color: "rgba(0,0,0,0.6)"}}>{API.t("premium_card_count", pack.count)}</Text>
-                      <Text style={{fontSize: 10, color: "rgba(0,0,0,0.6)"}}>{API.t("premium_phrase_count", pack.count * 3)}</Text>
+                    <View key={i} style={[styles.card, {backgroundColor: "#fafafa"}]}>
+                      <CachedImage uri={`${API.assetEndpoint}activities/assets/${pack.slug}.png?v=${API.version}`} style={{width: API.artworkAspectRatio * 80, height: 80, margin: 5}}/>
+                      <Text style={{fontWeight: "500", color: "rgba(0,0,0,0.8)", paddingVertical: 3}}>{pack.title}</Text>
                     </View>
                   )
                 })}
