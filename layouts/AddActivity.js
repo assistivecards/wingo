@@ -27,7 +27,16 @@ const AddActivity = ({ navigation }) => {
     }, 300);
   };
 
-  const handleItemPress = (slug) => {
+  const handleItemPress = (slug, isPremium) => {
+
+    if(isPremium){
+      navigation.pop();
+      setTimeout(() => {
+        navigation.push("Premium");
+      }, 300);
+      return false;
+    }
+
     setNewTasks(
       {
         ...newTasks,

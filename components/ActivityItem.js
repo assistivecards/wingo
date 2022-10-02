@@ -28,6 +28,10 @@ const ActivityItem = ({
   const handlePress = () => {
     onPress && onPress();
 
+    if(data.isPremium && !API.isPremium()){
+      return false;
+    }
+    
     setTimeout(() => {
       speakOnPress && speak(data.title);
     }, 100);
@@ -89,6 +93,11 @@ const ActivityItem = ({
             {data.title}
           </Text>
         </View>
+        {data.isPremium == 1 &&
+          <View style={[styles.button, {backgroundColor: "#a2ddfd"}]}>
+            <Text style={{color: "#3e455b", fontWeight: "bold"}}>Premium</Text>
+          </View>
+        }
       </TouchableScale>
 
       {(showEditing && isEditing) && (
@@ -129,6 +138,17 @@ const styles = StyleSheet.create({
   searchItemEmoji: {
     fontSize: 25, margin: 10
   },
+  button: {
+    backgroundColor: "#6989FF",
+    height: 30,
+    borderRadius: 15,
+    paddingHorizontal: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
+    right: 10,
+    top: 17
+  }
 });
 
 export default ActivityItem;

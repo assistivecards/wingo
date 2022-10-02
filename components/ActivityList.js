@@ -20,7 +20,7 @@ const ActivityList = ({ term, activities, showAll, onItemPress, getIsSelected })
           <ActivityItem
             key={i}
             data={result}
-            onPress={() => onItemPress(result.slug)}
+            onPress={() => onItemPress(result.slug, result.isPremium)}
             selected={getIsSelected(result.slug)}
           />
         ))}
