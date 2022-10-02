@@ -22,7 +22,7 @@ import uitext from './uitext';
 
 const APP = require("./app.json");
 // For test cases
-const _DEVELOPMENT = true;
+const _DEVELOPMENT = false;
 
 const _NETWORK_STATUS = true;
 const _FLUSH = false;
