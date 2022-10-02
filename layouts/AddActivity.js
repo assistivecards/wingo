@@ -29,7 +29,7 @@ const AddActivity = ({ navigation }) => {
 
   const handleItemPress = (slug, isPremium) => {
 
-    if(isPremium){
+    if(isPremium && !API.isPremium()){
       navigation.pop();
       setTimeout(() => {
         navigation.push("Premium");

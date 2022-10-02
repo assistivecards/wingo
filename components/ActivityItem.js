@@ -31,7 +31,7 @@ const ActivityItem = ({
     if(data.isPremium && !API.isPremium()){
       return false;
     }
-    
+
     setTimeout(() => {
       speakOnPress && speak(data.title);
     }, 100);
@@ -93,7 +93,7 @@ const ActivityItem = ({
             {data.title}
           </Text>
         </View>
-        {data.isPremium == 1 &&
+        {(data.isPremium == 1 && !API.isPremium()) &&
           <View style={[styles.button, {backgroundColor: "#a2ddfd"}]}>
             <Text style={{color: "#3e455b", fontWeight: "bold"}}>Premium</Text>
           </View>
