@@ -21,7 +21,6 @@
 ##  Gradle start up script for UN*X
 ##
 ##############################################################################
-
 # Attempt to set APP_HOME
 # Resolve links: $0 may be a link
 PRG="$0"
@@ -59,6 +58,8 @@ die () {
     echo
     exit 1
 }
+
+echo "using JAVA PATH ====>  $JAVA_HOME"
 
 # OS specific support (must be 'true' or 'false').
 cygwin=false
