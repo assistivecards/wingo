@@ -2,6 +2,8 @@
 
 This is a template project for assistivecards react native projects.
 
+-- Use adoptopenjdk-8.jdk while building on android on mac m1
+
 ## Adaptation Procedure
 
 1) Clone this repository to the slug name of the new project.
