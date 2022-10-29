@@ -6,12 +6,13 @@
     "start": "expo start --dev-client",
     "translate": "export GOOGLE_APPLICATION_CREDENTIALS=scripts/translation-token.json&& node scripts/translate-ui.js &&  npx pre-require interface uitext.js",
     "translate:win": "set GOOGLE_APPLICATION_CREDENTIALS=scripts/translation-token.json&& node scripts/translate-ui.js && npx pre-require interface uitext.js",
-    "splash": "yarn run configure-splash-screen -b #333333 -i ./assets/splash.png -r cover --status-bar-style default",
+    "splash": "yarn run configure-splash-screen -b #636eb5 --dark-mode-background-color #636eb5 --dark-mode-status-bar-background-color #636eb5 --status-bar-background-color #636eb5 -i ./assets/splash.png -r cover --status-bar-style default",
     "clean": "cd android && ./gradlew clean",
     "bundle": "cd android && ./gradlew bundleRelease",
     "apk": "cd android && ./gradlew assembleRelease",
     "release": "npx react-native run-android --variant=release",
-    "debug": "adb logcat"
+    "debug": "adb logcat",
+    "test:apk": "adb install /Users/buraktokak/Developer/wingo/android/app/build/outputs/apk/release/app-release.apk"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.12.1",
