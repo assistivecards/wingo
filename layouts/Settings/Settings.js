@@ -89,7 +89,7 @@ export default class App extends React.Component {
     ScreenOrientation.unlockAsync();
   }
 
-  lockPress(){
+  lockPress(isInstant){
     this.setState({
       lock: true,
       lockByUser: true
@@ -104,7 +104,11 @@ export default class App extends React.Component {
 
     setTimeout(() => {
       this.props.navigation.pop();
-    }, 1000);
+    }, isInstant ? 100 : 1000);
+  }
+
+  backPressed(){
+    this.lockPress(true);
   }
 
   render() {
@@ -119,7 +123,7 @@ export default class App extends React.Component {
 
     return (
       <>
-        <TopBar back={() => this.props.navigation.pop()} backgroundColor={API.config.backgroundColor} lock={"locked"} lockPress={this.lockPress.bind(this)}/>
+        <TopBar back={() => this.backPressed()} backgroundColor={API.config.backgroundColor} lock={"locked"} lockPress={this.lockPress.bind(this)}/>
         <ScrollView style={{flex: 1, backgroundColor: API.config.backgroundColor}}>
           <Profile navigation={this.props.navigation}/>
           <View style={styles.content}>
