@@ -12,6 +12,7 @@
     "apk": "cd android && ./gradlew assembleRelease",
     "release": "npx react-native run-android --variant=release",
     "debug": "adb logcat",
+    "test:emu": "emulator -avd Pixel_3a_API_32_arm64-v8a",
     "test:apk": "adb install /Users/buraktokak/Developer/wingo/android/app/build/outputs/apk/release/app-release.apk"
   },
   "dependencies": {
