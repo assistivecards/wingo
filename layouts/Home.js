@@ -195,7 +195,183 @@ const Home = ({ navigation }) => {
           <DayMenu />
         </View>
 
-        {activities && (
+        {API.isTablet && (
+          <View style={{
+            width: '100%',
+            flexDirection: 'row',
+            justifyContent: 'space-between'
+          }}>
+            <View style={{ width: '33%' }}>
+              {displayData && displayData.length > 0 && (
+                <DraggableFlatList
+                  ref={flatListRef}
+                  data={displayData}
+                  ListHeaderComponent={allCount > 0 && <ProgressBar completedCount={completedCount} allCount={allCount} />}
+                  ListHeaderComponentStyle={{ marginHorizontal: -20 }}
+                  renderItem={renderTaskItem}
+                  keyExtractor={(item, index) => `draggable-item-${item.slug}-${index}`}
+                  onDragEnd={handleDragEnd}
+                  activationDistance={20}
+                  contentContainerStyle={{
+                    paddingBottom: 400,
+                    paddingHorizontal: API.config.globalPadding
+                  }}
+                />
+              )}
+
+              {(!displayData || (displayData && displayData.length < 1)) && (
+                <View
+                  style={[
+                    styles.item, {
+                      padding: 10,
+                      flex: 1
+                    }]}>
+                  <CachedImage
+                    uri={`${API.assetEndpoint}activities/assets/planning-the-day.png?v=${API.version}`}
+                    style={{
+                      width: API.isTablet ? 160 * API.artworkAspectRatio : 140 * API.artworkAspectRatio,
+                      height: API.isTablet ? 160 : 140,
+                      margin: 5,
+                      opacity: 0.7
+                    }}
+                  />
+                  <Text
+                    style={[API.styles.h2, {
+                      fontSize: 19,
+                      marginLeft: 10,
+                      marginTop: 10,
+                    }]}
+                  >
+                    {API.t("no_tasks_yet")}
+                  </Text>
+                  <Text
+                    style={[API.styles.p, {
+                      marginHorizontal: 25,
+                      textAlign: "center",
+                      paddingBottom: 100
+                    }]}
+                  >
+                    {API.t("no_tasks_yet_desc")}
+                  </Text>
+                </View>
+              )}
+            </View>
+            <View style={{ width: '33%' }}>
+              {displayData && displayData.length > 0 && (
+                <DraggableFlatList
+                  ref={flatListRef}
+                  data={displayData}
+                  ListHeaderComponent={allCount > 0 && <ProgressBar completedCount={completedCount} allCount={allCount} />}
+                  ListHeaderComponentStyle={{ marginHorizontal: -20 }}
+                  renderItem={renderTaskItem}
+                  keyExtractor={(item, index) => `draggable-item-${item.slug}-${index}`}
+                  onDragEnd={handleDragEnd}
+                  activationDistance={20}
+                  contentContainerStyle={{
+                    paddingBottom: 400,
+                    paddingHorizontal: API.config.globalPadding
+                  }}
+                />
+              )}
+
+              {(!displayData || (displayData && displayData.length < 1)) && (
+                <View
+                  style={[
+                    styles.item, {
+                      padding: 10,
+                      flex: 1
+                    }]}>
+                  <CachedImage
+                    uri={`${API.assetEndpoint}activities/assets/planning-the-day.png?v=${API.version}`}
+                    style={{
+                      width: API.isTablet ? 160 * API.artworkAspectRatio : 140 * API.artworkAspectRatio,
+                      height: API.isTablet ? 160 : 140,
+                      margin: 5,
+                      opacity: 0.7
+                    }}
+                  />
+                  <Text
+                    style={[API.styles.h2, {
+                      fontSize: 19,
+                      marginLeft: 10,
+                      marginTop: 10,
+                    }]}
+                  >
+                    {API.t("no_tasks_yet")}
+                  </Text>
+                  <Text
+                    style={[API.styles.p, {
+                      marginHorizontal: 25,
+                      textAlign: "center",
+                      paddingBottom: 100
+                    }]}
+                  >
+                    {API.t("no_tasks_yet_desc")}
+                  </Text>
+                </View>
+              )}
+            </View>
+            <View style={{
+              width: '33%'
+            }}>
+              {displayData && displayData.length > 0 && (
+                <DraggableFlatList
+                  ref={flatListRef}
+                  data={displayData}
+                  ListHeaderComponent={allCount > 0 && <ProgressBar completedCount={completedCount} allCount={allCount} />}
+                  ListHeaderComponentStyle={{ marginHorizontal: -20 }}
+                  renderItem={renderTaskItem}
+                  keyExtractor={(item, index) => `draggable-item-${item.slug}-${index}`}
+                  onDragEnd={handleDragEnd}
+                  activationDistance={20}
+                  contentContainerStyle={{
+                    paddingBottom: 400,
+                    paddingHorizontal: API.config.globalPadding
+                  }}
+                />
+              )}
+
+              {(!displayData || (displayData && displayData.length < 1)) && (
+                <View
+                  style={[
+                    styles.item, {
+                      padding: 10,
+                      flex: 1
+                    }]}>
+                  <CachedImage
+                    uri={`${API.assetEndpoint}activities/assets/planning-the-day.png?v=${API.version}`}
+                    style={{
+                      width: API.isTablet ? 160 * API.artworkAspectRatio : 140 * API.artworkAspectRatio,
+                      height: API.isTablet ? 160 : 140,
+                      margin: 5,
+                      opacity: 0.7
+                    }}
+                  />
+                  <Text
+                    style={[API.styles.h2, {
+                      fontSize: 19,
+                      marginLeft: 10,
+                      marginTop: 10,
+                    }]}
+                  >
+                    {API.t("no_tasks_yet")}
+                  </Text>
+                  <Text
+                    style={[API.styles.p, {
+                      marginHorizontal: 25,
+                      textAlign: "center",
+                      paddingBottom: 100
+                    }]}
+                  >
+                    {API.t("no_tasks_yet_desc")}
+                  </Text>
+                </View>
+              )}
+            </View>
+          </View>
+        )}
+
+        {activities && !API.isTablet && (
           <>
             {displayData && displayData.length > 0 && (
               <DraggableFlatList

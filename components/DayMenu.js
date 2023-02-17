@@ -30,6 +30,44 @@ const DayMenu = () => {
     }
   }
 
+  if (API.isTablet) {
+    return (
+      <View style={{
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: "space-between",
+      }}>
+        <View style={{
+          width: '33%',
+          justifyContent: 'center'
+        }}>
+          <DayItem
+            onPress={() => setDay(day)}
+            day={DAY.yesterday}
+          />
+        </View>
+        <View style={{
+          width: '33%',
+          justifyContent: 'center',
+        }}>
+          <DayItem
+            onPress={() => setDay(day)}
+            day={DAY.today}
+          />
+        </View>
+        <View style={{
+          width: '33%',
+          justifyContent: 'center'
+        }}>
+          <DayItem
+            onPress={() => setDay(day)}
+            day={DAY.tomorrow}
+          />
+        </View>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.root}>
       <View style={styles.arrowContainer}>

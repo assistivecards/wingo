@@ -5,6 +5,20 @@ import TouchableScale from 'touchable-scale-btk';
 import API from '../api';
 
 const DayItem = ({ day, selected, onPress }) => {
+  const getTextColor = () => {
+    if (API.isTablet) {
+      return API.config.backgroundColor
+    }
+    return !selected ? API.config.backgroundColor : API.config.panelColor
+  }
+
+  const getOpacity = () => {
+    if (API.isTablet) {
+      return 1
+    }
+    return !selected ? 0.4 : 1
+  }
+
   return (
     <TouchableScale onPress={onPress}>
       <View
@@ -14,8 +28,8 @@ const DayItem = ({ day, selected, onPress }) => {
         ]}>
         <Text
           style={[styles.text, {
-            color: !selected ? API.config.backgroundColor : API.config.panelColor,
-            opacity: !selected ? 0.4 : 1
+            color: getTextColor(),
+            opacity: getOpacity()
           }]}>
           {API.t(day)}
         </Text>
@@ -29,10 +43,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 8,
     borderRadius: 50,
-    alignSelf: 'flex-start',
+    alignSelf: API.isTablet ? 'center' : 'flex-start',
   },
   text: {
-    fontSize: 18,
+    fontSize: API.isTablet ? 26 : 18,
     fontWeight: "bold",
     textAlign: 'center',
   },
